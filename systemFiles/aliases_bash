@@ -6,7 +6,6 @@
 # EXO
 #-------------------------------------------------------------------------------
 
-alias sshslac='ssh -Y -A alexis4@rhel5-64.slac.stanford.edu'
 
 
 #--------------------------------------------------------------------
@@ -38,43 +37,5 @@ alias rmtexfiles='rm *.aux *.log *.out *.toc'
 # elog
 alias startupELOG='$SOFTWAREDIR/elog/elogd -p 8080 -c $SOFTWAREDIR/elog/elogd.cfg -D'
 alias restartELOG='killall elogd; startupELOG'
-
-
-#--------------------------------------------------------------------
-# ssh
-#--------------------------------------------------------------------
-
-alias pdsf='ssh -Y -A alexis3@pdsf.nersc.gov'
-
-# old PowerPC Mac in CENPA 118 office
-alias ssh118='ssh -Y -A alexis@128.95.100.96'
-alias vnc118='ssh alexis@128.95.100.96 -L 5900:127.0.0.1:5900'
-
-# CENPA's cluster
-alias sshcenparocks='ssh -Y -A alexis@172.25.100.1'
-alias sshcenparocksfromaway='ssh -A -f -N -q -L 2222:cenpa-rocks.npl.washington.edu:22 alexis3@dante.u.washington.edu; ssh -Y -p2222 alexis@localhost'
-
-# dante
-alias sshdante='ssh alexis3@dante.u.washington.edu'
-
-#--------------------------------------------------------------------
-# ssh to uw
-#--------------------------------------------------------------------
-
-alias sshwasabi='ssh -Y -A alexis@wasabi.physics.unc.edu'
-
-# my silly bucket system
-alias syncpdsf='rsync -e 'ssh' alexis3@pdsf.nersc.gov:~/bucket/pdsf ~/bucket'
-alias synccrunch='rsync -e "ssh -p 3298" alexis3@crunch4.npl.washington.edu:/data1/alexis3/bucket/crunch ~/bucket'
-alias syncwasabi='rsync -e 'ssh' alexis@wasabi.physics.unc.edu:~/bucket/wasabi ~/bucket'
-alias sync118='rsync -avzh alexis@128.95.100.96:/Users/alexis/bucket/desktop118 /home/alexis/bucket'
-#alias synccenparocks='rsync -e 'ssh' alexis@cenpa-rocks.npl.washington.edu:~/bucket/cenpaRocks ~/bucket'
-#alias synccrunch='rsync -azh --progress -e 'ssh' alexis3@crunch4.npl.washington.edu:~/bucket/crunch ~/bucket'
-
-alias sendto118='rsync -azh --progress -e 'ssh' $MYBUCKET alexis@128.95.100.96:~/bucket'
-alias sendtowasabi='rsync -azh --progress -e 'ssh' $MYBUCKET alexis@wasabi.physics.unc.edu:~/bucket'
-alias sendtopdsf='rsync -azh --progress -e 'ssh' $MYBUCKET alexis@pdsf.nersc.gov:~/bucket'
-alias sendtocenparocks='rsync -azh --progress -e 'ssh' $MYBUCKET alexis@cenpa-rocks.npl.washington.edu:~/bucket'
-
 
 
