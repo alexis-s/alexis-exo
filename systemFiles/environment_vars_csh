@@ -2,5 +2,5 @@
 
 set nobeep
 set autolist
-setenv SVN_EDITOR vim
+setenv EDITOR vim
 
