@@ -1,0 +1,175 @@
+# @(#)Cshrc 1.3 88/02/08 SMI
+# aliases for all shells
+
+
+#--------------------------------------------------------------------
+# general
+#--------------------------------------------------------------------
+
+alias cp        'cp -i'
+alias mv        'mv -i'
+alias pwd       'echo $cwd'
+alias ls	'ls -Gh'
+#alias dir       'ls -alh'
+#alias xterm     'xterm -geometry 200x60'
+alias up 	'cd ..'
+alias root      'root -l'
+alias screen    'screen -l'
+alias gdb       'gdb -silent'
+alias top       'top -o cpu' # order by cpu usage
+#alias vi        'vim -s ~/.virc'
+alias vir       'vi -R' # read-only vi 
+
+alias mgdo 'cd $MGDODIR'
+#alias dawn 'dawn -d' # batch mode
+
+# aliases from jason?:
+#alias ls	'ls --color'
+#alias findf     'find . -name'
+#alias top       'top -d 1'
+alias remake    'make clean; make'
+alias remake2    'make clean; make -j2; make'
+#alias rsupd     'rsync -e ssh -avu'
+#alias rsupdz    'rsync -e ssh -avuz'
+
+#alias rsync      'rsync -azh --exclude='.*.swp' --progress'
+#alias rsync      'rsync -azhv --progress'
+#alias rsync      'rsync -azh'
+
+alias pdflatex    'pdflatex -halt-on-error'
+alias mage 'cd ${MAGEDIR}'
+
+alias rmtextempfiles 'rm *.aux *.log *.out *.bbl *.blg *.lot *.lof *.toc *.brf'
+
+alias todo      'cat ~/ewi/todo/todo.txt'
+
+#--------------------------------------------------------------------
+# ssh to uw
+#--------------------------------------------------------------------
+
+#alias backupcenparocks 'rsync -azh --progress --modify-window=5 -e ssh alexis@172.25.100.1:/SCRATCH/alexis/MaGeResults /Volumes/volume1_public/' 
+
+alias pdsf      'ssh -Y -A alexis3@pdsf.nersc.gov'
+#alias athena    'ssh -Y alexis3@athena0.npl.washington.edu'
+#alias sshcenparocks 'ssh -Y alexis@cenpa-rocks.npl.washington.edu'
+
+# CENPA machines
+#-------------------------------------------------------------------------------
+
+# CENPA's cluster
+alias sshcenparocks 'ssh -Y -A alexis@172.25.100.1'
+
+# CENPA MJ elog server
+alias sshelog	'ssh elog@ewiserver.npl.washington.edu'
+
+# CENPA MJ server
+alias majorana	'ssh -Y alexis3@majorana.npl.washington.edu'
+
+# old CENPA servers
+#alias crunch1   'ssh -Y alexis3@crunch1.npl.washington.edu'
+# crunch2 is dead!
+#alias crunch2   'ssh -Y alexis3@crunch2.npl.washington.edu'
+#alias crunch3   'ssh -Y alexis3@crunch3.npl.washington.edu'
+#alias crunch4   'ssh -Y -p3298 alexis3@crunch4.npl.washington.edu'
+#alias crunch4 'echo crunch4 is dead!'
+
+# CENPA Marie server
+alias mariefromcenpa 'ssh alexis3@marie.npl.washington.edu'
+#alias marie 'ssh alexis3@marie.npl.washington.edu'
+# use 118 desktop as gateway
+#alias marieconnect 'ssh -v -A -N -L 2222:alexis3@marie.npl.washington.edu:22 alexis@128.95.100.96'
+# use dante as gateway
+#alias marieconnect 'ssh -v -A -N -L 2222:alexis3@marie.npl.washington.edu:22 alexis3@dante.u.washington.edu'
+#alias marie 'ssh -p2222 localhost'
+
+alias copymusictophone 'rsync -azh --modify-window=1 --progress /Users/Shared/Music/ /Volumes/lexis_nexus/music/'
+
+# my silly bucket system ---------------------------------------------
+
+alias sync118    'rsync -azh --progress -e ssh alexis@128.95.100.96:~/bucket/desktop118 ~/bucket'
+alias syncwasabi 'rsync -azh --progress -e ssh alexis@wasabi.physics.unc.edu:~/bucket/wasabi ~/bucket'
+alias syncpdsf   'rsync -azh --progress -e ssh alexis3@pdsf.nersc.gov:~/bucket/pdsf ~/bucket'
+
+#alias synccenparocksfrom118bucket 'rsync -azh --progress -e ssh alexis@128.95.100.96:~/bucket/cenpaRocks ~/bucket'
+#alias synccenparocksfrom118mount 'rsync -azh --progress -e ssh alexis@128.95.100.96:~/lisa/bucket/cenpaRocks ~/bucket'
+
+#alias synccenparocksfromaway 'rsync -azh --progress -e 'ssh -p 2222' alexis@localhost:~/bucket/cenpaRocks ~/bucket'
+
+# this works if I cut and paste into the command line -- leaves the ssh
+# connection open, though!!  maybe replace with a python script
+#alias synccenparocksfromaway 'ssh -A -f -N -q -L 2222:cenpa-rocks.npl.washington.edu:22 alexis3@dante.u.washington.edu; rsync -azh --progress -e 'ssh -p 2222' alexis@localhost:~/bucket/cenpaRocks ~/bucket' 
+
+alias sendto118        'rsync -azh --progress -e ssh $MYBUCKET alexis@128.95.100.96:~/bucket'
+alias sendtowasabi     'rsync -azh --progress -e ssh $MYBUCKET alexis@wasabi.physics.unc.edu:~/bucket'
+alias sendtopdsf       'rsync -azh --progress -e ssh $MYBUCKET alexis@pdsf.nersc.gov:~/bucket'
+alias sendtocenparocks 'rsync -azh --progress -e ssh $MYBUCKET alexis@cenpa-rocks.npl.washington.edu:~/bucket'
+alias sendtoport2222   'rsync -avzh --progress -e '"'"'ssh -p 2222'"'"' $MYBUCKET alexis@localhost:~/bucket'
+
+# end of silly bucket stuff -------------------------------------
+
+# the machine where ppc 2 data is stored
+alias sshmjlabLB  'ssh -Y mjdaq@128.95.100.178'
+#alias vncmjlabLB  'ssh mjdaq@128.95.100.178 -L 5900:127.0.0.1:5900'
+alias vncmjlabLB  'ssh mjdaq@128.95.100.178 -L 1212:127.0.0.1:5900'
+
+#alias sshwasabi 'ssh -Y paddy@wasabi.physics.unc.edu'
+alias sshwasabi 'ssh -Y -A alexis@wasabi.physics.unc.edu'
+alias sshuncdaq 'ssh -Y daq@152.2.88.32'
+alias getuncdaqdata 'rsync --progress -avzhe 'ssh' daq@152.2.88.32:/Users/daq/Desktop/SBCTests/Data/ .'
+
+#alias sshmjlab  'ssh -Y snodaqa@winmdw.npl.washington.edu'
+#alias vncmjlab  'ssh snodaq@winmdw.npl.washington.edu -L 5900:127.0.0.1:5900'
+#alias winplb    'ssh -Y alexis@winplb.npl.washington.edu'
+
+#alias vncmjlaG4	'ssh snodaq@128.95.100.175 -L 5900:127.0.0.1:5900'
+#alias sshmjlabG4 'ssh snodaq@128.95.100.175'
+
+#alias vnc118snodaq  'ssh snodaq@128.95.100.96 -L 5900:127.0.0.1:5900'
+#alias ssh118shodaq  'ssh snodaq@128.95.100.96'
+
+# old PowerPC Mac in CENPA 118 office
+alias ssh118  'ssh -Y -A alexis@128.95.100.96'
+alias vnc118  'ssh alexis@128.95.100.96 -L 5900:127.0.0.1:5900'
+
+#alias sshmjdaq  'ssh -Y mjdaq@172.25.100.150'
+
+#alias sshkatrin 'ssh snodaq@winplb.npl.washington.edu'
+#alias vnckatrin	'ssh snodaq@winplb.npl.washington.edu -L 5900:127.0.0.1:5900'
+
+#alias vncmjwin  'ssh -L 5900:127.0.0.1:5900 NPL@172.25.100.172'
+
+# UW student server
+alias sshdante     'ssh -Y alexis3@dante.u.washington.edu'
+
+# UW phys grad machines
+alias grad47    'ssh -Y alexis3@grad47.phys.washington.edu'
+alias grad49    'ssh -Y alexis3@grad49.phys.washington.edu'
+
+# CENPA MJ Lab linux box
+#alias sshLinuxStf 'ssh -Y alexis@172.25.100.171'
+
+
+alias movebariumtorocks 'rsync -e 'ssh' -avzh --progress alexis@wasabi.physics.unc.edu:/Volumes/wasabi-RAID/MALBEK_KURF/July2011_Ba133Data /Users/alexis/lisa/alexis/bariumSourceData/2011/07/'
+
+#--------------------------------------------------------------------
+# ssh home
+#--------------------------------------------------------------------
+
+alias vnchp     'ssh alexis@192.168.0.32 -L 5900:127.0.0.1:5900'
+alias sshhp     'ssh alexis@192.168.0.32'
+
+alias sshendtable   'ssh alexis@endtable.net'
+
+#--------------------------------------------------------------------
+# CVS/SVN
+#--------------------------------------------------------------------
+
+# MJ Proposal CVS:
+alias setMJcvs 'setenv CVSROOT :ext:alexis3@crunch4.npl.washington.edu:/crunch4/data1/EWI/cvsroot'
+
+# OrcaROOT CVS:
+alias setORcvs 'setenv CVSROOT :pserver:katrin@128.95.100.177:/Users/orca/cvs'
+
+# Orca cvs:
+alias setOrcaCvs 'setenv CVSROOT :pserver:anonymous@128.95.100.177:/Users/orca/cvs'
+
