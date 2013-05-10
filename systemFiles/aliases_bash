@@ -29,6 +29,7 @@ alias up='cd ..'
 alias root='root -l'
 alias screen='screen -l'
 alias vir='vi -R' # read-only vi 
+alias ls='ls -G'
 
 alias remake='make clean; make'
 
