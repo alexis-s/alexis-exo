@@ -1,0 +1,64 @@
+
+# most MJ stuff not working after upgrade to OSX 10.9 Mavericks
+
+#-------------------------------------------------------------------------------
+# GENERAL STUFF
+#-------------------------------------------------------------------------------
+
+export SOFTWAREDIR=/Users/Shared/software
+export SVN_EDITOR='vi'
+
+export GTRDIR=$SOFTWAREDIR/glory
+
+#-------------------------------------------------------------------------------
+# ROOT setup
+#-------------------------------------------------------------------------------
+
+#source $SOFTWAREDIR/root/root5_34_04/bin/thisroot.sh
+# new OSX 10.9, new root 02 Nov 2013
+#source $SOFTWAREDIR/root/root5_34_11/bin/thisroot.sh
+# after trouble with root/python
+#source $SOFTWAREDIR/root/rootGit/bin/thisroot.sh
+
+# 15 Dec 2013:
+source $SOFTWAREDIR/root/root5_34_13/bin/thisroot.sh
+
+#-------------------------------------------------------------------------------
+# GEANT4
+#-------------------------------------------------------------------------------
+
+# override the G4 default set by env.sh
+#export G4WORKDIR=$SOFTWAREDIR/g4WorkDir
+
+#source $SOFTWAREDIR/geant4/geant4.9.4.p04/env.sh >& /dev/null
+
+#-------------------------------------------------------------------------------
+# MySQL
+#-------------------------------------------------------------------------------
+
+#export PATH=/usr/local/mysql/bin:$PATH
+#export DYLD_LIBRARY_PATH=/usr/local/mysql/lib:$DYLD_LIBRARY_PATH
+
+#-------------------------------------------------------------------------------
+# EXO SW
+#-------------------------------------------------------------------------------
+
+#source /tmp/alexis/exoout/setup.sh
+
+
+#-------------------------------------------------------------------------------
+# MJ STUFF:
+#-------------------------------------------------------------------------------
+
+# set by G4's env.sh:
+#export CLHEP_BASE_DIR=$SOFTWAREDIR/clhep/clhep2.1.0.1
+
+#source $SOFTWAREDIR/mjSW/mgsw.sh
+
+export MALBEKDIR=$SOFTWAREDIR/mjSW/MJOrcaAnalysis/MalbekAnalysis/scripts
+
+export MAGERESULTS=/Users/Shared/mageResults 
+
+#export LABVIEWDATA=/Users/Shared/Dropbox/labViewData
+
+
