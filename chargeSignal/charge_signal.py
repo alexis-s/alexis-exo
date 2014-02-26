@@ -7,8 +7,8 @@ This script simulated the charge induced on an anode pad.
 Comparing to Liangjian's images.
 LW used:
 q = -10e5 (listed in his talk)
-z_0 = ? (I thought he said 25mm?)
-v_elec = ?
+z_0 = 25cm (I thought he said 25mm?)
+v_elec = 2.71 insead of 1.71
 
 to do -- add ion drift?
 """
@@ -90,9 +90,9 @@ def make_plot():
     # options
     q = -1e5                    # n electrons - same as LW
     v_elec = 1.71               # mm / microsecond # arxiv 1306.6106
-    time_duration = 10         # microseconds
+    time_duration = 200         # microseconds
     delta_t = 0.1               # microseconds
-    z_0 = 150                   # starting position in mm
+    z_0 = 250                   # starting position in mm
     graph = TGraph()
     t = 0.0
     x = 1.5
@@ -102,7 +102,7 @@ def make_plot():
         z = z_0 - v_elec*t
         #charge = get_charge_on_pad(q, z, x, y)
         charge = get_charge_on_x_string(q, z, y_index=0)
-        print 'time: %.2f | z: %.2f | charge: %.2f' % (t, z, charge)
+        #print 'time: %.2f | z: %.2f | charge: %.2f' % (t, z, charge)
         i_point = graph.GetN()
         graph.SetPoint(i_point, t, charge)
         t += delta_t
@@ -119,7 +119,7 @@ def make_plot():
 
     graph.Draw()
     canvas.Update()
-    canvas.Print('test.pdf')
+    canvas.Print('test_signal.pdf')
 
 
 if __name__ == "__main__":
