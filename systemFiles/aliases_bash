@@ -2,6 +2,15 @@
 # copied from cenpa-rocks 07 Feb 2013 -- AGS
 
 
+
+#-------------------------------------------------------------------------------
+# SSH
+
+alias ssh_corn='ssh -Y alexis4@corn.stanford.edu'
+
+alias sync_farmShare='rsync -avzh -e 'ssh' --progress alexis4@corn.stanford.edu:~/bucket/farmShare ~/bucket'
+
+
 #-------------------------------------------------------------------------------
 # EXO
 #-------------------------------------------------------------------------------
@@ -39,4 +48,5 @@ alias rmtexfiles='rm *.aux *.log *.out *.toc'
 alias startupELOG='$SOFTWAREDIR/elog/elogd -p 8080 -c $SOFTWAREDIR/elog/elogd.cfg -D'
 alias restartELOG='killall elogd; startupELOG'
 
+alias truecrypt='/Applications/TrueCrypt.app/Contents/MacOS/Truecrypt --text'
 
