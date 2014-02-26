@@ -6,9 +6,12 @@
 #-------------------------------------------------------------------------------
 
 export SOFTWAREDIR=/Users/Shared/software
+export PATH=$SOFTWAREDIR/bin:$PATH
+
 export SVN_EDITOR='vi'
 
 export GTRDIR=$SOFTWAREDIR/glory
+
 
 #-------------------------------------------------------------------------------
 # ROOT setup
@@ -43,7 +46,10 @@ source $SOFTWAREDIR/root/root5_34_13/bin/thisroot.sh
 # EXO SW
 #-------------------------------------------------------------------------------
 
-#source /tmp/alexis/exoout/setup.sh
+export EXOSW=$SOFTWAREDIR/exoSW
+export EXOOUT=$EXOSW/exoout
+export EXOSIM=$EXOSW/offline/geant/EXOsim
+source $EXOOUT/setup.sh
 
 
 #-------------------------------------------------------------------------------
