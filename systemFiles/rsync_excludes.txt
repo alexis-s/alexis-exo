@@ -1,3 +1,4 @@
+.fseventsd
 .Spotlight-*/
 .Trashes
 /afs/*
