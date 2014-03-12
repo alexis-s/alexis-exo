@@ -8,6 +8,7 @@ A script to backup my SU silver macbook to an external drive.
 
 import os
 import sys
+import datetime
 import commands
 
 
@@ -21,17 +22,21 @@ if __name__ == '__main__':
   source_dir = '/'
   target_dir = '/Volumes/AGS_SU_Bkup/'
 
-  log_file = '/Users/alexis/backup.log'
 
   if not os.path.isdir(target_dir):
     print 'oops, mount the drive.'
     sys.exit(1)
 
+  date_info = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
+
+  log_file = '/Users/alexis/.ags_backups/backup_%s.log' % date_info
+  print 'log file:', log_file
+
 
   rsync_command = []
   rsync_command.append('time')
   rsync_command.append('rsync')
-  #rsync_command.append('-n')           # dry run
+  rsync_command.append('-n')           # dry run
   rsync_command.append('-avzh')                 
   rsync_command.append('--progress')
   rsync_command.append('--exclude-from=rsync_excludes.txt')
@@ -48,7 +53,6 @@ if __name__ == '__main__':
 
   output = commands.getstatusoutput(rsync_command)
   print output[1]
-
 
   print 'the end.'
 
