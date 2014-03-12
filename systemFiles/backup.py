@@ -3,6 +3,9 @@
 """
 A script to backup my SU silver macbook to an external drive. 
 07 Mar 2013 AGS
+
+This takes ~20 minutes just to look over the files, even if no data is
+transferred.
 """
 
 
@@ -36,7 +39,7 @@ if __name__ == '__main__':
   rsync_command = []
   rsync_command.append('time')
   rsync_command.append('rsync')
-  rsync_command.append('-n')           # dry run
+  #rsync_command.append('-n')           # dry run
   rsync_command.append('-avzh')                 
   rsync_command.append('--progress')
   rsync_command.append('--exclude-from=rsync_excludes.txt')
