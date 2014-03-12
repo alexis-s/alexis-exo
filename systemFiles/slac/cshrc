@@ -22,9 +22,11 @@ if( ${?prompt} ) then
 	alias ll 'ls -l \!*'
 endif
 
+# pre-3/2014, per EXO confluence:
+# https://confluence.slac.stanford.edu/x/gwIkBQ
 source /nfs/slac/g/exo/software/builds/current/setup.csh
 
+# AGS, pre-3/2014
 source ~/.aliases
 source ~/.environment_vars
-
 
