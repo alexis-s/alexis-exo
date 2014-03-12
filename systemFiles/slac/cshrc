@@ -1,0 +1,30 @@
+#
+# this file gets executed by every shell you start
+#
+
+eval `/usr/local/bin/environ /bin/tcsh -i${?prompt} -e emacs:vi`
+
+
+# Set the value of the PRINTER environmental variable to the name
+# of your default printer.  For printer names, see the file
+# /etc/qconfig on AIX systems or /etc/printcap on other systems).
+# The default value, "InvalidPrinter", prevents the lp command from
+# accidently submitting print jobs to the batch queue.
+
+setenv PRINTER InvalidPrinter
+
+
+if( ${?prompt} ) then
+	# put aliases and other things down here
+	alias ls ls -F
+	alias mail /usr/ucb/Mail
+	alias purge /bin/rm '*~'
+	alias ll 'ls -l \!*'
+endif
+
+source /nfs/slac/g/exo/software/builds/current/setup.csh
+
+source ~/.aliases
+source ~/.environment_vars
+
+
