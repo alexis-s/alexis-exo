@@ -1,0 +1,6 @@
+
+source ~/.aliases
+source ~/.environment_vars
+source ~/ssh-aliases.sh
+
+
