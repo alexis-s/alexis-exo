@@ -50,6 +50,7 @@ if __name__ == '__main__':
   rsync_command.append('--progress')
   rsync_command.append('--exclude-from=%s' % exclude_file)
   rsync_command.append('--delete-after')
+  rsync_command.append('--delete-excluded') # good to use after changing rsync_excludes.txt
 
   rsync_command.append(source_dir)
   rsync_command.append(target_dir)
