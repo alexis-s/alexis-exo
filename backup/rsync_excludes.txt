@@ -1,4 +1,6 @@
 .fseventsd
+.DocumentRevisions-V100
+.MobileBackups
 .Spotlight-*/
 .Trashes
 /afs/*
