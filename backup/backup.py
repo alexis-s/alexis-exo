@@ -35,6 +35,12 @@ if __name__ == '__main__':
   log_file = '/Users/alexis/.ags_backups/backup_%s.log' % date_info
   print 'log file:', log_file
 
+  # get the full path to the exclude file
+  exclude_file = os.path.realpath(__file__)
+  exclude_file = os.path.dirname(exclude_file) + '/'
+  exclude_file += 'rsync_excludes.txt'
+  print 'exclude file:', exclude_file
+
 
   rsync_command = []
   rsync_command.append('time')
@@ -42,8 +48,9 @@ if __name__ == '__main__':
   #rsync_command.append('-n')           # dry run
   rsync_command.append('-avzh')                 
   rsync_command.append('--progress')
-  rsync_command.append('--exclude-from=rsync_excludes.txt')
+  rsync_command.append('--exclude-from=%s' % exclude_file)
   rsync_command.append('--delete-after')
+  rsync_command.append('--delete-excluded') # good to use after changing rsync_excludes.txt
 
   rsync_command.append(source_dir)
   rsync_command.append(target_dir)

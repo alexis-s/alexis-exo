@@ -12,6 +12,7 @@ export SVN_EDITOR='vi'
 
 export GTRDIR=$SOFTWAREDIR/glory
 
+export ELOGEXODIR=$SOFTWAREDIR/elog/logbooks/ags-exo
 
 #-------------------------------------------------------------------------------
 # ROOT setup
