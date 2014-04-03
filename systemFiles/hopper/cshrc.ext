@@ -1,0 +1,75 @@
+# begin .cshrc.ext
+
+if (-e $HOME/.dbgdot) then
+  echo "entering .cshrc.ext"
+endif
+#
+# User additions to .cshrc go in this file
+#
+setenv NERSC_HOST `/usr/common/usg/bin/nersc_host`
+
+if ($NERSC_HOST == "davinci") then
+#  Replace the following line with personal settings for davinci
+  touch /dev/null
+endif
+
+if ($NERSC_HOST == "datatran") then
+#  Replace the following line with personal settings for datatran
+  touch /dev/null
+endif
+
+
+# 27 Mar 2014, from confluence:
+# https://confluence.slac.stanford.edu/display/exo/Run+EXOAnalysis+at+NERSC
+
+if (-e $HOME/.dbgdot) then
+  echo "starting EXO part"
+endif
+ 
+setenv EXOPROJDIR /project/projectdirs/exo200
+if ($NERSC_HOST == "hopper" || $NERSC_HOST == "edison") then
+
+  # We use a static version of ROOT built with icc
+  setenv ROOTSYS $EXOPROJDIR/software/root/5.28.00h_static_icc
+  setenv PATH $ROOTSYS/bin:$PATH
+  setenv PYTHONPATH .:${PYTHONPATH}
+  
+  # Set up Geant4/CLHEP
+  source ${EXOPROJDIR}/software/geant4/4.9.3.p02_static/env.csh > /dev/null
+  
+  # Set up EXOLIB
+  setenv EXOLIB $EXOPROJDIR/exo_out
+  setenv EXOOUT $EXOPROJDIR/exo_out
+  setenv PATH $EXOLIB/bin:$PATH
+  
+  module swap PrgEnv-pgi PrgEnv-intel
+  module load subversion
+  module unload xt-shem
+  if ($NERSC_HOST == "edison") then
+    module unload darshan
+    module load mkl
+  endif
+endif
+umask 002
+
+if (-e $HOME/.dbgdot) then
+  echo "end EXO part"
+endif
+
+
+# pyroot -- AGS Mar 2014
+#if ($?PYTHONPATH) then
+#  setenv PYTHONPATH $ROOTSYS/lib:$PYTHONPATH
+#else
+#  setenv PYTHONPATH $ROOTSYS/lib
+#endif
+
+# aliases -- AGS Mar 2014
+source $HOME/.aliases 
+
+
+if (-e $HOME/.dbgdot) then
+  echo "exiting .cshrc.ext"
+endif
+
+# end .cshrc.ext
