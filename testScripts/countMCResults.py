@@ -17,11 +17,15 @@ for filename in filenames:
     print "--> processing:", filename
 
     root_file = TFile(filename)
-    tree = TFile.Get("tree")
-    n_entries = tree.GetNEntries()
-    total_entries += n_entries
+    tree = root_file.Get("tree")
 
-    print "\t %s entries" % n_entries
+    try:
+        n_entries = tree.GetEntries()
+        print "\t n_entries", n_entries
+        total_entries += n_entries
+    except AttributeError:
+        print "\t BAD FILE!!"  
+ 
 
 
 print "total files:", total_files
