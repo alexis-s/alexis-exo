@@ -75,9 +75,9 @@ def process_directory(
         tree.Draw("Sum$(fMonteCarloData.fPixelatedChargeDeposits.fTotalEnergy)*1e3 >> +%s" % histSumPCDE.GetName())
         print "%i entries in hist %s " % (histSumPCDE.GetEntries(), histSumPCDE.GetName())
 
-        histTotELXe.Scale(1.0/histTotELXe.GetEntries())
-        histCCRawE.Scale(1.0/histCCRawE.GetEntries())
-        histSumPCDE.Scale(1.0/histSumPCDE.GetEntries())
+    histTotELXe.Scale(1.0/histTotELXe.GetEntries())
+    histCCRawE.Scale(1.0/histCCRawE.GetEntries())
+    histSumPCDE.Scale(1.0/histSumPCDE.GetEntries())
 
     return (histTotELXe, histCCRawE, histSumPCDE)
 
