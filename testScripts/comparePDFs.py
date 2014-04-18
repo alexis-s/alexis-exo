@@ -28,7 +28,7 @@ def get_list_from_filenames_in_dir(directory):
 
         info = os.path.basename(filename) 
         info = os.path.splitext(info)[0]
-        print info
+        #print info
 
         names.add(info)   
 

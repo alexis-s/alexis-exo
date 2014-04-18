@@ -51,13 +51,18 @@ def process_file(filename):
             print output
             sys.exit(1)
 
+    file_type = os.path.splitext(filename)[1]
+    #print file_type
+    if file_type != ".root":
+        return 
+
 
     # move the root file:
     cmd = "mv %s %s/" % (filename, last_dir)
-    print cmd
+    #print cmd
     (status, output) = commands.getstatusoutput(cmd)
     if status != 0:
-        print output
+        print status, output
         sys.exit(1)
 
 
@@ -70,7 +75,7 @@ for directory in directories:
 
     process_directory(directory)
 
-    break # debugging
+    #break # debugging
 
 
 

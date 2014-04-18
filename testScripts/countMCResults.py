@@ -29,7 +29,7 @@ for filename in filenames:
 
 
 print "total files:", total_files
-print "total entries:", total_entries
+print "total entries: %.2e" % total_entries
 print "events / file:", total_entries/total_files
 
 
