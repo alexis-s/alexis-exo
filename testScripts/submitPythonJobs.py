@@ -21,7 +21,7 @@ import sys
 
 #queue = "long" # <= 2 hours
 queue = "xlong" # <= 16 hours
-hours = 5
+hours = 15
 minutes = 00
 
 python_script = sys.argv[1]
@@ -30,8 +30,7 @@ filenames = sys.argv[2:]
 #print "\n".join(filenames)
 #filenames.sort()
 #print "\n".join(filenames)
-
-sys.exit()
+#sys.exit()
 
 wrap_python = "/nfs/slac/g/exo/software/applications/bin/wrap_python.sh"
 
@@ -62,7 +61,7 @@ bsub \\
       "wrap_python": wrap_python,
     }
 
-    #print script
+    print script
 
     write_handle = os.popen(script, 'w')
     write_handle.close()

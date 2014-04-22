@@ -22,6 +22,10 @@ if( ${?prompt} ) then
 	alias ll 'ls -l \!*'
 endif
 
+# 15 Apr 2014, for my own build:
+#source /nfs/slac/g/exo_data4/users/alexis4/software/exoout/setup.csh
+#source ~/alexis-exo/systemFiles/slac/setup_root_and_g4.csh 
+
 # pre-3/2014, per EXO confluence:
 # https://confluence.slac.stanford.edu/x/gwIkBQ
 source /nfs/slac/g/exo/software/builds/current/setup.csh
@@ -43,6 +47,10 @@ endif
 
 
 # AGS, pre-3/2014
-source ~/.aliases
-source ~/.environment_vars
+#source ~/.aliases
+#source ~/.environment_vars
+
+# 02 Apr 2014
+source /u/xo/alexis4/.aliases
+source /u/xo/alexis4/.environment_vars
 
