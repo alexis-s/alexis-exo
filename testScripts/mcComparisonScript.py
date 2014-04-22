@@ -112,7 +112,6 @@ def process_directory(
 
     hists = []
 
-    for (hist, draw_string) in hist_info:
         print "--> scaling %s" % hist.GetName()
         hist.Scale(1.0/hist.GetEntries())
         hists.append(hist)
