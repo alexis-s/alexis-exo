@@ -5,6 +5,12 @@ This script is based on Jeff Wood's GeantComparisonScriptSingleFiles.C.
 This is being used to compare EXOAnalysis output before and after incorporation
 of neutron capture code.
 
+wish list:
+* more flexibility in axis labels (CCs are not in keV)
+* add position info
+* add legends
+* add meaningful file names
+
 11 Apr 2014 A.G. Schubert
 """
 
@@ -21,16 +27,23 @@ from ROOT import TCanvas
 
 def create_hist(name, title=""):
 
+    print "--> creating hist: name = %s, title = %s" % (name, title) 
+
     # options for hist binning, in keV:
     binWidth = 14.0
     minE = 0.0
-    maxE = 10010.0 # even number of bins, 14-keV wide
+    maxE = 3500.0 # even number of bins, 14-keV wide
     nBins = int((maxE - minE)/binWidth)
+    print "\t minE = %.2f | maxE = %.2f | binWidth = %.2f | nBins = %.2f" % (minE, maxE, binWidth, nBins)
+    maxE = minE + nBins*binWidth
+    print "\t minE = %.2f | maxE = %.2f | binWidth = %.2f | nBins = %.2f" % (minE, maxE, binWidth, nBins)
+
 
     #print minE, maxE, nBins
 
     hist = TH1D(name, title, nBins, minE, maxE)
     hist.SetXTitle("Energy [keV]")
+    hist.SetLineWidth(2)
 
     return hist
 
@@ -43,9 +56,32 @@ def process_directory(
 
     print "--> processing directory:", directory
 
-    histTotELXe = create_hist("histTotELXe_%s" % suffix, "Total Energy in LXe")
-    histCCRawE = create_hist("histCCRawE_%s" % suffix, "CC Sum energy")
-    histSumPCDE = create_hist("histSumPCDE_%s" % suffix, "PCD Sum energy")
+
+    # these hists will get created (hist title, draw string, selection):
+    hist_lists = []
+    hist_lists.append(("Energy deposited in LXe sum", "fMonteCarloData.fTotalEnergyInLiquidXe", "")) 
+
+    # this is not really calibrated!
+    hist_lists.append(("Sum Raw Energy Clusters", "Sum$(fChargeClusters.fRawEnergy)", ""))
+    hist_lists.append(("PCD Sum energy", "Sum$(fMonteCarloData.fPixelatedChargeDeposits.fTotalEnergy)*1e3", ""))
+
+
+    hist_info = []
+
+    # loop over hist_lists, create empty hists with the specified info:
+    for i, hist_list in enumerate(hist_lists):
+
+        (title, draw_string, selection) = hist_list
+        name = "hist%i" % i
+
+        
+        title = "%s: %s" % (title, draw_string)
+        if selection != "": title += " {%s}" % selection
+        hist = create_hist(name, title)
+        hist_info.append((hist, draw_string))
+
+    for hist_list in hist_lists:
+        print hist_list
 
 
     root_filenames = glob.glob("%s/*.root" % directory)
@@ -64,22 +100,23 @@ def process_directory(
             print "BAD FILE"
             continue
 
-        histTotELXe.GetDirectory().cd()
+        hist_info[0][0].GetDirectory().cd()
 
-        tree.Draw("fMonteCarloData.fTotalEnergyInLiquidXe >> +%s" % histTotELXe.GetName())
-        print "%i entries in hist %s " % (histTotELXe.GetEntries(), histTotELXe.GetName())
 
-        tree.Draw("Sum$(fChargeClusters.fRawEnergy) >> +%s" % histCCRawE.GetName())
-        print "%i entries in hist %s " % (histCCRawE.GetEntries(), histCCRawE.GetName())
+        for (hist, draw_string) in hist_info:
 
-        tree.Draw("Sum$(fMonteCarloData.fPixelatedChargeDeposits.fTotalEnergy)*1e3 >> +%s" % histSumPCDE.GetName())
-        print "%i entries in hist %s " % (histSumPCDE.GetEntries(), histSumPCDE.GetName())
+            name = hist.GetName()
+            tree.Draw("%s >> +%s" % (draw_string, name))
+            print "\t\t%i entries in %s: %s" % (hist.GetEntries(), name, hist.GetTitle())
 
-    histTotELXe.Scale(1.0/histTotELXe.GetEntries())
-    histCCRawE.Scale(1.0/histCCRawE.GetEntries())
-    histSumPCDE.Scale(1.0/histSumPCDE.GetEntries())
 
-    return (histTotELXe, histCCRawE, histSumPCDE)
+    hists = []
+
+        print "--> scaling %s" % hist.GetName()
+        hist.Scale(1.0/hist.GetEntries())
+        hists.append(hist)
+
+    return hists
 
 
 def main(directory1, directory2):
@@ -103,7 +140,7 @@ def main(directory1, directory2):
         hist2.Draw("same")
 
         canvas.Update()
-        canvas.Print("%s_vs_%s.pdf" % (hist1.GetName(), hist2.GetName()) )
+        canvas.Print("%s.pdf" % hist1.GetName())
 
 
 
