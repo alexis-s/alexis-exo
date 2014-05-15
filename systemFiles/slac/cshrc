@@ -34,21 +34,22 @@ endif
 # https://confluence.slac.stanford.edu/pages/viewpage.action?pageId=163480421
 source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/trunk/setup.csh
 
+# 09 May 2014, for my own build w rhel6
+# for trunk:
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/exoout
+source /nfs/slac/g/exo_data4/users/alexis4/software/exoout/setup.csh
+
+
 # to add exo fitting, 14 MAr 2014:
-setenv LD_LIBRARY_PATH $EXOLIB/fitting/lib:$LD_LIBRARY_PATH
+#setenv LD_LIBRARY_PATH $EXOLIB/fitting/lib:$LD_LIBRARY_PATH
 
+# aliases for sourcing different EXOAnalysis setup versions:
+alias source_trunk 'source /nfs/slac/g/exo_data4/users/alexis4/software/exoout/setup.csh'
+alias source_offline_veto_panels 'source /nfs/slac/g/exo_data4/users/alexis4/software/exoout_offline_veto_panels/setup.csh'
+alias source_offline_veto_daq 'source /nfs/slac/g/exo_data4/users/alexis4/software/exoout_offline_veto_daq/setup.csh'
 
-# 12 Mar 2014, per EXO https://confluence.slac.stanford.edu/x/gwIkBQ
-# was not using this as of 12 Mar 2014, since default python is 2.7
-
-setenv PYTHONPATH ${ROOTSYS}/lib
-if ($?LD_LIBRARY_PATH) then
-   setenv LD_LIBRARY_PATH /opt/TWWfsw/python25/lib/python2.5/config:${LD_LIBRARY_PATH}
-else
-  setenv LD_LIBRARY_PATH /opt/TWWfsw/python25/lib/python2.5/config
-endif
-
-
+# some handy soft links, 14 May 2014
+setenv PATH /nfs/slac/g/exo_data4/users/alexis4/software/bin:${PATH}
 
 # AGS, pre-3/2014
 #source ~/.aliases
