@@ -1,3 +1,10 @@
+"""
+Print some info to help check whether relative event rates are correct.
+
+arguments: [directories of root MC output]
+
+"""
+
 #!/usr/bin/env python
 
 import os
@@ -25,10 +32,13 @@ for subdirectory in directories:
 # expect 5000000 events of ActiveLXe_Pb214_only
 
 scale_factor = 5000000 / total_info[0][1]
+print "\n\nsummary of relative events:"
 
-for (name, total_entries) in total_info:
+for (subdirectory, total_entries) in total_info:
+
+    name = os.path.split(subdirectory)[-1]
 
     print "%s : %.1e" % (name, total_entries * scale_factor)
 
+print "scale_factor:", scale_factor
 
-print scale_factor
