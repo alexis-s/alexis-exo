@@ -32,7 +32,10 @@ def main(filenames):
 
     print "total files:", total_files
     print "total entries: %.2e" % total_entries
-    print "total | events / file:", total_entries/total_files
+    try:
+        print "total | events / file:", total_entries/total_files
+    except:
+        pass
     return total_entries
 
 
