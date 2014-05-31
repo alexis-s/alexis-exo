@@ -7,29 +7,40 @@ gROOT.SetBatch(True)
 
 from ROOT import TFile
 
-filenames = sys.argv[1:]
 
-total_entries = 0
-total_files = len(filenames)
 
-for filename in filenames:
+def main(filenames):
 
-    print "--> processing:", filename
+    total_entries = 0
+    total_files = len(filenames)
 
-    root_file = TFile(filename)
-    tree = root_file.Get("tree")
+    for filename in filenames:
 
+        print "--> processing:", filename
+
+        root_file = TFile(filename)
+        tree = root_file.Get("tree")
+
+        try:
+            n_entries = tree.GetEntries()
+            print "\t n_entries", n_entries
+            total_entries += n_entries
+        except AttributeError:
+            print "\t BAD FILE!!"  
+     
+
+
+    print "total files:", total_files
+    print "total entries: %.2e" % total_entries
     try:
-        n_entries = tree.GetEntries()
-        print "\t n_entries", n_entries
-        total_entries += n_entries
-    except AttributeError:
-        print "\t BAD FILE!!"  
- 
+        print "total | events / file:", total_entries/total_files
+    except:
+        pass
+    return total_entries
 
 
-print "total files:", total_files
-print "total entries: %.2e" % total_entries
-print "events / file:", total_entries/total_files
+if __name__ == "__main__":
 
+    filenames = sys.argv[1:]
+    main(filenames)
 

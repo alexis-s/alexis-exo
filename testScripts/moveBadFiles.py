@@ -24,7 +24,7 @@ def is_root_file_ok(filename):
 
     file_type = os.path.splitext(filename)[1]
     #print file_type
-    if file_type == ".mac":
+    if file_type != ".root":
         return True
 
 
@@ -75,7 +75,7 @@ def process_directory(
 
 directories = sys.argv[1:]
 
-bad_file_dir = 'bad_files3'
+bad_file_dir = 'bad_files'
 cmd = "mkdir %s" % bad_file_dir
 print cmd
 (status, output) = commands.getstatusoutput(cmd)

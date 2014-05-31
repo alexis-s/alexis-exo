@@ -50,7 +50,7 @@ bsub \\
   -e out_%(base)s.err \\
   -o out_%(base)s.out \\
   -J %(base)s_py \\
-   'printenv; %(wrap_python)s %(python_script)s %(filename)s'
+   'printenv; python %(python_script)s %(filename)s'
 """ % {
       "queue": queue,
       "hours": hours,
@@ -58,7 +58,6 @@ bsub \\
       "base": basename,
       "python_script": python_script,
       "filename": filename,
-      "wrap_python": wrap_python,
     }
 
     print script

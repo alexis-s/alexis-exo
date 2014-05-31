@@ -5,6 +5,12 @@ This script is based on Jeff Wood's GeantComparisonScriptSingleFiles.C.
 This is being used to compare EXOAnalysis output before and after incorporation
 of neutron capture code.
 
+wish list:
+* more flexibility in axis labels (CCs are not in keV)
+* add position info
+* add legends
+* add meaningful file names
+
 11 Apr 2014 A.G. Schubert
 """
 
@@ -16,21 +22,29 @@ gROOT.SetBatch(True)
 from ROOT import TH1D
 from ROOT import TFile
 from ROOT import TCanvas
+from ROOT import TLegend
 
 
 
 def create_hist(name, title=""):
 
+    print "--> creating hist: name = %s, title = %s" % (name, title) 
+
     # options for hist binning, in keV:
     binWidth = 14.0
     minE = 0.0
-    maxE = 10010.0 # even number of bins, 14-keV wide
+    maxE = 3500.0 # even number of bins, 14-keV wide
     nBins = int((maxE - minE)/binWidth)
+    print "\t minE = %.2f | maxE = %.2f | binWidth = %.2f | nBins = %.2f" % (minE, maxE, binWidth, nBins)
+    maxE = minE + nBins*binWidth
+    print "\t minE = %.2f | maxE = %.2f | binWidth = %.2f | nBins = %.2f" % (minE, maxE, binWidth, nBins)
+
 
     #print minE, maxE, nBins
 
     hist = TH1D(name, title, nBins, minE, maxE)
     hist.SetXTitle("Energy [keV]")
+    hist.SetLineWidth(2)
 
     return hist
 
@@ -43,18 +57,53 @@ def process_directory(
 
     print "--> processing directory:", directory
 
-    histTotELXe = create_hist("histTotELXe_%s" % suffix, "Total Energy in LXe")
-    histCCRawE = create_hist("histCCRawE_%s" % suffix, "CC Sum energy")
-    histSumPCDE = create_hist("histSumPCDE_%s" % suffix, "PCD Sum energy")
+
+    # create a dict of info for each hist to be created:
+    hist_info = []
+
+    hist_info.append({
+      "title": "Energy deposited in LXe sum", 
+      "draw_string": "fMonteCarloData.fTotalEnergyInLiquidXe", 
+    }) 
+
+    # this is not really calibrated!
+    hist_info.append({
+      "title": "Sum Raw Energy Clusters", 
+      "draw_string": "Sum$(fChargeClusters.fRawEnergy)", 
+    }) 
+
+    hist_info.append({
+      "title": "PCD Sum energy", 
+      "draw_string": "Sum$(fMonteCarloData.fPixelatedChargeDeposits.fTotalEnergy)*1e3", 
+    }) 
+
+    # FIXME -- selection isn't being used
+    # hist, draw string
+
+    # loop over hist_lists, create empty hists with the specified info:
+    for i, hist_dict in enumerate(hist_info):
+
+        name = "hist%i_dir%s" % (i, suffix)
+        hist_dict["name"] = name
+        
+        title = "%(title)s: %(draw_string)s" % hist_dict
+        hist = create_hist(name, title)
+        hist_dict["hist"] = hist
+        #print hist_dict
 
 
     root_filenames = glob.glob("%s/*.root" % directory)
     print "%i files" % len(root_filenames)
 
 
-    for root_filename in root_filenames:
+    for (i_file, root_filename) in enumerate(root_filenames):
 
-        print "\t processing", root_filename
+        print "\t processing file %i of %i: %s" % (
+            i_file, 
+            len(root_filenames),
+            root_filename,
+        )
+
         try:
             root_file = TFile(root_filename)
             tree = root_file.Get("tree")
@@ -64,46 +113,76 @@ def process_directory(
             print "BAD FILE"
             continue
 
-        histTotELXe.GetDirectory().cd()
+        tree.GetEntry(0)
+        svn_revision = tree.EventBranch.fEventHeader.fSVNRevision
+        build_id = tree.EventBranch.fEventHeader.fBuildID
 
-        tree.Draw("fMonteCarloData.fTotalEnergyInLiquidXe >> +%s" % histTotELXe.GetName())
-        print "%i entries in hist %s " % (histTotELXe.GetEntries(), histTotELXe.GetName())
+        if i_file == 0:
+            prev_svn_revision = svn_revision
+        if svn_revision != prev_svn_revision:
+            print "SVN version changed!!"
+        #print "\t\t", svn_revision, build_id
 
-        tree.Draw("Sum$(fChargeClusters.fRawEnergy) >> +%s" % histCCRawE.GetName())
-        print "%i entries in hist %s " % (histCCRawE.GetEntries(), histCCRawE.GetName())
+        hist_info[0]["hist"].GetDirectory().cd()
 
-        tree.Draw("Sum$(fMonteCarloData.fPixelatedChargeDeposits.fTotalEnergy)*1e3 >> +%s" % histSumPCDE.GetName())
-        print "%i entries in hist %s " % (histSumPCDE.GetEntries(), histSumPCDE.GetName())
 
-    histTotELXe.Scale(1.0/histTotELXe.GetEntries())
-    histCCRawE.Scale(1.0/histCCRawE.GetEntries())
-    histSumPCDE.Scale(1.0/histSumPCDE.GetEntries())
+        for hist_dict in hist_info:
 
-    return (histTotELXe, histCCRawE, histSumPCDE)
+            draw_string = "%(draw_string)s >>+ %(name)s" % hist_dict
+            #print draw_string
+            tree.Draw(draw_string)
+            #print "\t\t%i entries in %(name)s: %(title)s" % (n_entries, hist_dict)
+            hist_dict["svn_revision"] = svn_revision
+            hist_dict["build_id"] = build_id
+            hist_dict["n_entries"] = hist.GetEntries()
+
+        if i_file > 500: # debugging
+            print "====> STOPPING AT FILE %s!" % i_file
+            break 
+
+
+    for hist_dict in hist_info:
+
+        print "--> scaling %(name)s" % hist_dict
+        hist = hist_dict["hist"]
+        hist.Scale(1.0/hist.GetEntries())
+        hist_dict["n_entries"] = hist.GetEntries()
+
+    return hist_info
 
 
 def main(directory1, directory2):
 
-    hists1 = process_directory(directory1, "1")
-    hists2 = process_directory(directory2, "2")
+    hist_info1 = process_directory(directory1, "1")
+    hist_info2 = process_directory(directory2, "2")
 
 
     canvas = TCanvas("canvas", "")
+    canvas.SetTopMargin(0.2)
     canvas.SetLogy(1)
 
-    for i in xrange(len(hists1)):
+    for i in xrange(len(hist_info1)):
 
         print "hists", i
 
-        hist1 = hists1[i]
-        hist2 = hists2[i]
+        hist_dict1 = hist_info1[i] 
+        hist_dict2 = hist_info2[i] 
+
+        hist1 = hist_dict1["hist"]
+        hist2 = hist_dict2["hist"]
+
+        legend = TLegend(0.1, 0.8, 0.9, 0.9)
+        legend_entry = "%(build_id)s, %(n_entries).1e entries"
+        legend.AddEntry(hist1, legend_entry % hist_dict1, "l")
+        legend.AddEntry(hist2, legend_entry % hist_dict2, "l")
 
         hist1.Draw()
         hist2.SetLineColor(2)
         hist2.Draw("same")
+        legend.Draw()
 
         canvas.Update()
-        canvas.Print("%s_vs_%s.pdf" % (hist1.GetName(), hist2.GetName()) )
+        canvas.Print("%s.pdf" % hist1.GetName())
 
 
 
