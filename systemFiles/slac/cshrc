@@ -36,7 +36,7 @@ source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/trunk/setup.csh
 
 # 09 May 2014, for my own build w rhel6
 # for trunk:
-#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/exoout
+setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/exoout
 source /nfs/slac/g/exo_data4/users/alexis4/software/exoout/setup.csh
 
 
