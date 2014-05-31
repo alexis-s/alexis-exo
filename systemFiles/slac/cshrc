@@ -59,3 +59,6 @@ setenv PATH /nfs/slac/g/exo_data4/users/alexis4/software/bin:${PATH}
 source /u/xo/alexis4/.aliases
 source /u/xo/alexis4/.environment_vars
 
+# use alternate .viminfo location 31 May 2014
+alias vim 'vim -i /nfs/slac/g/exo_data4/users/alexis4/.viminfo'
+
