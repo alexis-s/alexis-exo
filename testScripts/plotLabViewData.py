@@ -66,7 +66,7 @@ def process_file(filename):
             i_point = graph.GetN()
             y = float(value) #- i_val*0.01
             if y < 296.0:
-                print i_val, value
+                #print i_val, value
             if y > 0.0:
                 graph.SetPoint(i_point, time_stamp, y)
                 if y > maximum: maximum = y
@@ -109,7 +109,7 @@ def process_file(filename):
 
 
     canvas.Update()
-    canvas.Print("plot_%s.pdf" % basename)
+    canvas.Print("ts_plot_%s.pdf" % basename)
 
     #print "%s lines in file" % len(dat_file)
 
