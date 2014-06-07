@@ -50,3 +50,5 @@ alias restartELOG='killall elogd; startupELOG'
 
 alias truecrypt='/Applications/TrueCrypt.app/Contents/MacOS/Truecrypt --text'
 
+alias launchSecondDropbox='HOME=$HOME/stanford-Dropbox; /Applications/Dropbox.app/Contents/MacOS/Dropbox &'
+
