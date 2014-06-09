@@ -25,7 +25,10 @@ export ELOGEXODIR=$SOFTWAREDIR/elog/logbooks/ags-exo
 #source $SOFTWAREDIR/root/rootGit/bin/thisroot.sh
 
 # 15 Dec 2013:
-source $SOFTWAREDIR/root/root5_34_13/bin/thisroot.sh
+#source $SOFTWAREDIR/root/root5_34_13/bin/thisroot.sh
+
+# 09 June 2014:
+source $SOFTWAREDIR/root/root5_34_18/bin/thisroot.sh
 
 #-------------------------------------------------------------------------------
 # GEANT4
@@ -59,6 +62,7 @@ source $EXOOUT/setup.sh
 
 # set by G4's env.sh:
 #export CLHEP_BASE_DIR=$SOFTWAREDIR/clhep/clhep2.1.0.1
+export MACOSX_DEPLOYMENT_TARGET="10.9"
 
 #source $SOFTWAREDIR/mjSW/mgsw.sh
 
