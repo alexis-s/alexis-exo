@@ -25,10 +25,14 @@ from ROOT import TCanvas
 from ROOT import TPad
 from ROOT import TLegend
 from ROOT import TPaveText
+from ROOT import gSystem
+
+
+gSystem.Load("$EXOLIB/lib/libEXOUtilities")
 
 
 
-def create_hist(name, title, min, max, n_bins, x_title):
+def create_hist(name, title, min, max, n_bins, x_title, units):
 
     print "--> creating hist: name = %s, title = %s" % (name, title) 
 
@@ -45,6 +49,7 @@ def create_hist(name, title, min, max, n_bins, x_title):
 
     hist = TH1D(name, title, n_bins, min, max)
     hist.SetXTitle(x_title)
+    hist.SetYTitle("counts / decay / %.1d %s" % (hist.GetBinWidth(1), units) )
     hist.SetLineWidth(2)
     hist.Sumw2()
 
@@ -68,6 +73,18 @@ def process_directory(
       "draw_string": "fMonteCarloData.fTotalEnergyInLiquidXe", 
     }) 
 
+    hist_info.append({
+      "title": "Energy deposited in LXe sum ss", 
+      "draw_string": "fMonteCarloData.fTotalEnergyInLiquidXe", 
+      "selection": "@fChargeClusters.size()==1", 
+    }) 
+
+    hist_info.append({
+      "title": "Energy deposited in LXe sum ms", 
+      "draw_string": "fMonteCarloData.fTotalEnergyInLiquidXe", 
+      "selection": "@fChargeClusters.size()>1", 
+    }) 
+
     # this is not really calibrated!
     hist_info.append({
       "title": "Sum Raw Energy Clusters", 
@@ -87,12 +104,48 @@ def process_directory(
     }) 
 
     hist_info.append({
+      "title": "CC X Distribution", 
+      "draw_string": "fChargeClusters.fX",
+      "min": -250,
+      "max": 250,
+      "n_bins": 200,
+      "x_title": "x [mm]"
+    }) 
+
+    hist_info.append({
+      "title": "CC Y Distribution", 
+      "draw_string": "fChargeClusters.fY",
+      "min": -250,
+      "max": 250,
+      "n_bins": 200,
+      "x_title": "y [mm]"
+    }) 
+
+    hist_info.append({
       "title": "CC Z Distribution", 
       "draw_string": "fChargeClusters.fZ",
       "min": -250,
       "max": 250,
       "n_bins": 200,
       "x_title": "z [mm]"
+    }) 
+
+    hist_info.append({
+      "title": "PCD X Distribution", 
+      "draw_string": "fMonteCarloData.fPixelatedChargeDeposits.fCoordinateKey.fUorX",
+      "min": -1500,
+      "max": 1500,
+      "n_bins": 200,
+      "x_title": "fCoordinateKey.fX",
+    }) 
+
+    hist_info.append({
+      "title": "PCD Y Distribution", 
+      "draw_string": "fMonteCarloData.fPixelatedChargeDeposits.fCoordinateKey.fVorY",
+      "min": -1500,
+      "max": 1500,
+      "n_bins": 200,
+      "x_title": "fCoordinateKey.fY",
     }) 
 
     hist_info.append({
@@ -152,7 +205,8 @@ def process_directory(
     # loop over hist_lists, create empty hists with the specified info:
     for i, hist_dict in enumerate(hist_info):
 
-        name = "hist%i_dir%s" % (i, suffix)
+        #name = "hist%i_dir%s" % (i, suffix)
+        name =  "_".join(hist_dict["title"].split()) + "_%s" % suffix
         hist_dict["name"] = name
         title = "%(title)s: %(draw_string)s" % hist_dict
         try: 
@@ -169,23 +223,38 @@ def process_directory(
             n_bins = 250
         try: 
             x_title = hist_dict["x_title"] 
+            units = ""
         except KeyError: 
             x_title = "Energy [keV]"
+            units = "keV"
+        try: 
+            selection = hist_dict["selection"]
+            title += " {%s}" % selection
+        except KeyError:
+            pass
 
-        hist = create_hist(name, title, min, max, n_bins, x_title)
+        hist = create_hist(name, title, min, max, n_bins, x_title, units)
         hist_dict["hist"] = hist
         #print hist_dict
 
 
     root_filenames = glob.glob("%s/*.root" % directory)
     print "%i files" % len(root_filenames)
+    n_total_events = 0
+    n_total_g4_events = 0
 
 
     for (i_file, root_filename) in enumerate(root_filenames):
+        
+        # debugging:
+        if n_total_events > 1e6:
+            print "stopping at %i events!!" % n_total_events
+            break
 
-        print "\t processing file %i of %i: %s" % (
+        print "\t processing file %i of %i (%.2f percent): %s" % (
             i_file, 
             len(root_filenames),
+            i_file*100.0/len(root_filenames),
             root_filename,
         )
 
@@ -194,12 +263,21 @@ def process_directory(
             tree = root_file.Get("tree")
             n_entries = tree.GetEntries()
             print "\t\t %i entries" % n_entries
+            n_total_events += n_entries
+            print "\t\t %i total events" % n_total_events
+            tree.GetEntry(n_entries-1)
+            n_g4_events = tree.EventBranch.fEventHeader.fGeant4EventNumber
+            n_total_g4_events += n_g4_events
+            print "\t\t %i g4 events" % n_g4_events
+            print "\t\t %i total g4 events" % n_total_g4_events
             tree.GetEntry(0)
             svn_revision = tree.EventBranch.fEventHeader.fSVNRevision
             build_id = tree.EventBranch.fEventHeader.fBuildID
         except:
             print "BAD FILE"
             continue
+
+
 
 
         if i_file == 0:
@@ -214,8 +292,12 @@ def process_directory(
         for hist_dict in hist_info:
 
             draw_string = "%(draw_string)s >>+ %(name)s" % hist_dict
+            try: 
+                selection = hist_dict["selection"]
+            except KeyError:
+                selection = ""
             #print draw_string
-            tree.Draw(draw_string)
+            tree.Draw(draw_string, selection)
             #print "\t\t%i entries in %(name)s: %(title)s" % (n_entries, hist_dict)
             hist_dict["svn_revision"] = svn_revision
             hist_dict["build_id"] = build_id
@@ -235,7 +317,7 @@ def process_directory(
         #print hist.GetBinContent(i_bin)
         #print hist.GetBinError(i_bin)
         #print hist.GetBinError(i_bin)/hist.GetBinContent(i_bin)*100.0
-        hist.Scale(1.0/hist.GetEntries())
+        hist.Scale(1.0/n_total_g4_events)
         #print hist.GetBinError(i_bin)/hist.GetBinContent(i_bin)*100.0
         hist_dict["n_entries"] = hist.GetEntries()
 
@@ -254,6 +336,7 @@ def main(directory1, directory2):
     #canvas.SetTopMargin(0.2)
     canvas.SetLogy(1)
 
+    out_file = TFile("hist_comparison.root", "recreate")
 
     for i in xrange(len(hist_info1)):
 
@@ -273,6 +356,8 @@ def main(directory1, directory2):
         resid_hist.SetTitle("")
         resid_hist.Add(hist2, -1.0)
         #print resid_hist.GetYaxis().GetLabelSize()
+        resid_hist.SetXTitle("")
+        resid_hist.SetYTitle("")
         resid_hist.GetYaxis().SetLabelSize(0.10)
         resid_hist.GetYaxis().SetNdivisions(5)
 
@@ -301,13 +386,13 @@ def main(directory1, directory2):
         pave_text.AddText("Chi2 Prob: %.2f" % chi2_prob)
         pave_text.AddText("KS Prob: %.2f" % ks_prob)
         pave_text.SetBorderSize(1)
-        pave_text.Draw()
+        #pave_text.Draw()
         pave_text.SetFillColor(0)
 
         pad2.cd()
         pad2.SetGrid()
         pad2.SetBottomMargin(0)
-        resid_hist.Scale(100.0)
+        #resid_hist.Scale(100.0)
         resid_hist.Draw("p e")
 
 
@@ -316,6 +401,12 @@ def main(directory1, directory2):
         canvas.Print("%s.pdf" % hist1.GetName())
         canvas.Clear()
 
+        hist1.Write()
+        hist2.Write()
+        #canvas.Write("canvas_%s" % hist1.GetName())
+
+    legend.Write("legend")
+    out_file.Close()
 
 
 if __name__ == "__main__":
