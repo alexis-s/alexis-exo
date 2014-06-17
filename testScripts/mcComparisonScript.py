@@ -247,9 +247,9 @@ def process_directory(
     for (i_file, root_filename) in enumerate(root_filenames):
         
         # debugging:
-        if n_total_events > 1e6:
-            print "stopping at %i events!!" % n_total_events
-            break
+        #if n_total_events > 5e6:
+        #    print "stopping at %i events!!" % n_total_events
+        #    break
 
         print "\t processing file %i of %i (%.2f percent): %s" % (
             i_file, 
