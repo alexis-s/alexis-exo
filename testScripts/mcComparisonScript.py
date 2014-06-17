@@ -26,10 +26,18 @@ from ROOT import TPad
 from ROOT import TLegend
 from ROOT import TPaveText
 from ROOT import gSystem
+from ROOT import gStyle
 
 
 gSystem.Load("$EXOLIB/lib/libEXOUtilities")
+gROOT.SetStyle("Plain")     
+gStyle.SetOptStat(0)        
+gStyle.SetPalette(1)        
+gStyle.SetTitleStyle(0)     
+gStyle.SetTitleBorderSize(0)       
 
+# use consistent number of decimal places in plots:
+gStyle.SetStripDecimals(False)
 
 
 def create_hist(name, title, min, max, n_bins, x_title, units):
@@ -418,11 +426,5 @@ if __name__ == "__main__":
 
     main(sys.argv[1], sys.argv[2])
     #process_directory(sys.argv[1], "1")
-
-
-
-
-
-
 
 
