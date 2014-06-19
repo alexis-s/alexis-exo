@@ -1,0 +1,8 @@
+# The pdf info object will be created from this file.
+# Lines starting with '#' will be ignored.
+# Each pdf should have a line with the following parameters:
+
+# pdfName, activity(mBq), normFactor, nCapFraction, plotType, pdfTitle
+
+bb0n, 0.0023148148148148147, 1.0, 0.0, Other, test.root, #beta#beta0#nu 
+
