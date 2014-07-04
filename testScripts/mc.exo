@@ -1,0 +1,46 @@
+load $EXOLIB/plugins/EXOGeant4Module.*
+use exosim digitizer realnoise rec risetime uind wiregain v-wiregain cluster gridcorr toutput
+/exosim/macro mc.mac
+/exosim/SkipEmptyEvents true
+/exosim/physics_Neutron false
+/exosim/physics_MuNuclear false
+/exosim/physics_Optics false
+/exosim/initial_seed 0
+/exosim/run_number 0
+/digitizer/setDatabaseTime 1348000000
+/digitizer/driftVelocity 0.171
+/digitizer/collectionDriftVelocity 0.2041
+/digitizer/setDigitizationTime 2048 microsecond
+/digitizer/setTriggerTime 1024 microsecond
+/digitizer/LXeEnergyRes 0.0
+/digitizer/wireNoise 0.
+/digitizer/APDNoise 0.
+/digitizer/ElectronicsDBFlavor measured_times
+/digitizer/setNumberDigitizedVWireNeighbors 5
+/digitizer/setWeightPotentialFiles phiwx.extended.dat.bin phiwy.extended.dat.bin
+/digitizer/setVShift 0.0
+/realnoise/makeNoiseFile false
+/realnoise/NoiseFile /nfs/slac/g/exo_data2/exo_data/data/MC/NoiseLibraries/LB_noise_lib_Run2abc_20140328.root
+/realnoise/useNoiseFile true
+/cluster/drift_velocity_mm_per_ns 0.00171
+/rec/LowerFitBoundWire 40
+/rec/UpperFitBoundWire 140
+/rec/LowerFitBoundWireRestr 20
+/rec/UpperFitBoundWireRestr 30
+/rec/ElectronicsDBFlavor measured_times
+/rec/enable_stage multiple_sig_finder true
+/rec/matched_filter_finder/APDSumThresholdFactor 5
+/rec/matched_filter_finder/APDSmoothWindow 4
+/rec/matched_filter_finder/UserVWireThreshold -1.0
+/rec/matched_filter_finder/VWireThresholdFactor 5.0
+/rec/collection_drift_velocity_mm_per_ns 0.002041
+/rec/matched_filter_finder/DivideNoise false
+/cluster/ignore_induction True
+/cluster/collection_time 2940
+printmodulo 50
+maxevents 1000
+/toutput/writeSignals false
+/toutput/file output.root
+show
+begin
+exit
