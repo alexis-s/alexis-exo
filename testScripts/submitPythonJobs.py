@@ -45,6 +45,7 @@ for filename in filenames:
 
     script = """
 bsub \\
+  -R rhel60 \\
   -q %(queue)s \\
   -c %(hours)02i:%(minutes)02i \\
   -e out_%(base)s.err \\
