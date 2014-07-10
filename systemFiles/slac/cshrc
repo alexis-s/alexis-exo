@@ -22,22 +22,25 @@ if( ${?prompt} ) then
 	alias ll 'ls -l \!*'
 endif
 
-# 15 Apr 2014, for my own build:
-#source /nfs/slac/g/exo_data4/users/alexis4/software/exoout/setup.csh
-#source ~/alexis-exo/systemFiles/slac/setup_root_and_g4.csh 
-
-# pre-3/2014, per EXO confluence:
-# https://confluence.slac.stanford.edu/x/gwIkBQ
-#source /nfs/slac/g/exo/software/builds/current/setup.csh
-
 # 03 May 2014, for rhel6, per confluence:
 # https://confluence.slac.stanford.edu/pages/viewpage.action?pageId=163480421
 source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/trunk/setup.csh
+#source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/svn-id/8274/setup.csh
+
+# 09 Jun 2014, for my own geant4:
+#source /nfs/slac/g/exo_data4/users/alexis4/software/geant/geant4.9.3.p02/env.csh > /dev/null
 
 # 09 May 2014, for my own build w rhel6
-# for trunk:
-setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/exoout
-source /nfs/slac/g/exo_data4/users/alexis4/software/exoout/setup.csh
+# for trunk (leave the "source ... hudson ... " line above alone!):
+#
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline/build
+
+# for vladimir tests 14 Jun 2014:
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/exoout_bug_fix
+
+# for beta scale tests
+setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_beta_scale/build
+source $EXOOUT/setup.csh
 
 
 # to add exo fitting, 14 MAr 2014:
@@ -61,4 +64,7 @@ source /u/xo/alexis4/.environment_vars
 
 # use alternate .viminfo location 31 May 2014
 alias vim 'vim -i /nfs/slac/g/exo_data4/users/alexis4/.viminfo'
+
+alias myjobs 'bjobs | grep alexis ; echo "total:" ; bjobs | grep alexis | wc -l ; echo "running" ; bjobs | grep alexis | grep " RUN" | wc -l'
+
 
