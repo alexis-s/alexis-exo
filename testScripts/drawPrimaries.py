@@ -54,7 +54,7 @@ prefix = os.path.splitext(os.path.basename(prefix))[0]
 print prefix
 
 # open a new root file
-out_file = TFile("%s.root" % prefix, "recreate")
+out_file = TFile("%s_primaries.root" % prefix, "recreate")
 
 # setup hists:
 hist_xy = TH2D("hist_xy", prefix, n_bins, min_bin, max_bin, n_bins, min_bin, max_bin)
