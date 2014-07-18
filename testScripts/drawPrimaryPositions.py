@@ -17,6 +17,12 @@ from ROOT import TH2D
 
 # options:
 do_debug = False
+selection = "(fMonteCarloData.fPrimaryEventZ < 400) && (fMonteCarloData.fPrimaryEventZ > -400)"
+
+
+n_bins = 50
+min_bin = -1000
+max_bin = 1000
 
 if len(sys.argv) < 2:
     print "usage: %s [directories of root files]" % sys.argv[0]
@@ -37,7 +43,10 @@ for (index, directory) in enumerate(directories):
     print "suffix", suffix
 
 
-    hist = TH2D("hist_xy_%s" % suffix,"x vs. y",50,-1000,1000,50,-1000,1000)
+    hist = TH2D("hist_xy_%s" % suffix, selection, n_bins, min_bin, max_bin,
+    n_bins, min_bin, max_bin)
+    hist.GetXaxis().SetTitle("fMonteCarloData.fPrimaryEventX [mm]")
+    hist.GetYaxis().SetTitle("fMonteCarloData.fPrimaryEventY [mm]")
     hist.SetMarkerColor(index+1)
     hist.SetLineColor(index+1)
     hists_xy.append(hist)
@@ -58,7 +67,7 @@ for (index, directory) in enumerate(directories):
         root_files = root_files[:100]
 
     for root_file in root_files:
-        print root_file
+        #print root_file
         tree.Add(root_file)
 
     tree.SetLineColor(index+1)
@@ -99,7 +108,7 @@ for (index, tree) in enumerate(chains):
     #    draw_string += " >> h(50, -1000, 1000, 50, -1000, 1000)"
 
 
-    n_events = tree.Draw(draw_string, "", options)
+    n_events = tree.Draw(draw_string, selection, options)
     print "--> drawing chain %i: %s" % (index, name)
     print "%s, %s" % (draw_string, options)
     print "%i events" % n_events
