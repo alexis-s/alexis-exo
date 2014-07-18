@@ -23,7 +23,7 @@ def main(filenames):
 
         try:
             n_entries = tree.GetEntries()
-            print "\t n_entries", n_entries
+            print "\t n_entries %i (so far: %i)" % (n_entries, total_entries)
             total_entries += n_entries
         except AttributeError:
             print "\t BAD FILE!!"  
