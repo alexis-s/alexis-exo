@@ -52,3 +52,5 @@ alias truecrypt='/Applications/TrueCrypt.app/Contents/MacOS/Truecrypt --text'
 
 alias launchSecondDropbox='HOME=$HOME/stanford-Dropbox; /Applications/Dropbox.app/Contents/MacOS/Dropbox &'
 
+alias canopyPython='/Users/alexis/Library/Enthought/Canopy_64bit/User/bin/pythonw'
+

@@ -8,6 +8,9 @@
 export SOFTWAREDIR=/Users/Shared/software
 export PATH=$SOFTWAREDIR/bin:$PATH
 
+# add cmake 21 Sept 2014
+export PATH=/Applications/CMake.app/Contents/bin/:$PATH
+
 export SVN_EDITOR='vi'
 
 export GTRDIR=$SOFTWAREDIR/glory
@@ -39,6 +42,9 @@ source $SOFTWAREDIR/root/root5_34_18/bin/thisroot.sh
 
 #source $SOFTWAREDIR/geant4/geant4.9.4.p04/env.sh >& /dev/null
 
+export G4INSTALL=/Users/alexis/software/geant4/geant4.10.00.p02/geant4.10.00.p02-install
+source $G4INSTALL/bin/geant4.sh 
+
 #-------------------------------------------------------------------------------
 # MySQL
 #-------------------------------------------------------------------------------
@@ -51,8 +57,13 @@ source $SOFTWAREDIR/root/root5_34_18/bin/thisroot.sh
 #-------------------------------------------------------------------------------
 
 export EXOSW=$SOFTWAREDIR/exoSW
-export EXOOUT=$EXOSW/exoout
-export EXOSIM=$EXOSW/offline/geant/EXOsim
+#export EXOOUT=$EXOSW/exoout
+
+# Geant4.10, Oct 2014
+export EXOOUT=$EXOSW/offline/newg4_build
+
+#export EXOSIM=$EXOSW/offline/geant/EXOsim
+
 source $EXOOUT/setup.sh
 
 
@@ -62,6 +73,10 @@ source $EXOOUT/setup.sh
 
 # set by G4's env.sh:
 #export CLHEP_BASE_DIR=$SOFTWAREDIR/clhep/clhep2.1.0.1
+
+# trying to use geant4.10 -- 10 Oct 2014
+export CLHEP_BASE_DIR=$SOFTWAREDIR/clhep/2.1.4.1
+
 export MACOSX_DEPLOYMENT_TARGET="10.9"
 
 #source $SOFTWAREDIR/mjSW/mgsw.sh

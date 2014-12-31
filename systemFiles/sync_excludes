@@ -1,3 +1,9 @@
 .*.swp
 .nfs*
 core.*
+slac/batch_tests/
+slac/batch_tests/output/
+slac/batch_tests/output_before_brem_switch/
+slac/vladimir_tests_offset_2014_06_14/
+slac/beta_scale_tests_2014_06_08/
+slac/nEXOPads/
