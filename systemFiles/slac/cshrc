@@ -22,10 +22,19 @@ if( ${?prompt} ) then
 	alias ll 'ls -l \!*'
 endif
 
-# 03 May 2014, for rhel6, per confluence:
+# TRUNK -- 03 May 2014, for rhel6, per confluence:
 # https://confluence.slac.stanford.edu/pages/viewpage.action?pageId=163480421
 source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/trunk/setup.csh
+
+# old but important versions:
 #source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/svn-id/8274/setup.csh
+#source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/svn-id/9773/setup.csh
+
+# for particle id, salt geometry checks:
+#source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/svn-id/9842/setup.csh
+
+# majoron analysis
+#source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/svn-id/9594/setup.csh
 
 # 09 Jun 2014, for my own geant4:
 #source /nfs/slac/g/exo_data4/users/alexis4/software/geant/geant4.9.3.p02/env.csh > /dev/null
@@ -35,12 +44,23 @@ source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/trunk/setup.csh
 #
 #setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline/build
 
+# for n-cap bug fix:
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_nCap_Cu63/build
+
 # for vladimir tests 14 Jun 2014:
 #setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/exoout_bug_fix
 
 # for beta scale tests
-setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_beta_scale/build
-source $EXOOUT/setup.csh
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_beta_scale/build
+
+# javier
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_javier/build
+
+# michal tarka
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_tarka/build
+
+# for my own builds:
+#source $EXOOUT/setup.csh
 
 
 # to add exo fitting, 14 MAr 2014:
