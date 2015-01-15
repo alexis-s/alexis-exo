@@ -224,7 +224,7 @@ def process_directory(
         try: 
             max = hist_dict["max"] 
         except KeyError: 
-            max = 3500
+            max = 3000
         try: 
             n_bins = hist_dict["n_bins"] 
         except KeyError: 
@@ -255,7 +255,7 @@ def process_directory(
     for (i_file, root_filename) in enumerate(root_filenames):
         
         # debugging:
-        #if n_total_events > 5e6:
+        #if n_total_events > 2e6:
         #    print "stopping at %i events!!" % n_total_events
         #    break
 
@@ -272,7 +272,7 @@ def process_directory(
             n_entries = tree.GetEntries()
             print "\t\t %i entries" % n_entries
             n_total_events += n_entries
-            print "\t\t %i total events" % n_total_events
+            print "\t\t %i total entries" % n_total_events
             tree.GetEntry(n_entries-1)
             n_g4_events = tree.EventBranch.fEventHeader.fGeant4EventNumber
             n_total_g4_events += n_g4_events
@@ -318,7 +318,7 @@ def process_directory(
 
     for hist_dict in hist_info:
 
-        print "--> scaling %(name)s" % hist_dict
+        print "--> scaling %s by 1 / %.2f" % (hist_dict['name'], n_total_g4_events)
         hist = hist_dict["hist"]
         i_bin = 50
         #print "bin:", i_bin
