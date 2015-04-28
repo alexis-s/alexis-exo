@@ -30,15 +30,16 @@ for subdirectory in directories:
     total_info.append((subdirectory, total_entries))
     
 # expect 5000000 events of ActiveLXe_Pb214_only
+#scale_factor = 5000000 / total_info[0][1]
 
-scale_factor = 5000000 / total_info[0][1]
-print "\n\nsummary of relative events:"
+#scale_factor = 1000000 / total_info[0][1]
+print "\n\nsummary of events:"
 
 for (subdirectory, total_entries) in total_info:
 
     name = os.path.split(subdirectory)[-1]
 
-    print "%s : %.1e" % (name, total_entries * scale_factor)
+    print "%s : %.1e" % (name, total_entries)
 
-print "scale_factor:", scale_factor
+#print "scale_factor:", scale_factor
 
