@@ -48,6 +48,7 @@ def process_directory(
     directory,  # directory we're searching
     bad_file_dir,  # place to put bad files
 ):
+    n_bad_files = 0
 
     print "--> processing directory:", directory
 
@@ -67,7 +68,9 @@ def process_directory(
                 (status, output) = commands.getstatusoutput(cmd)
                 print status
                 print output
+                n_bad_files += 1
 
+    print "==> %i bad files" % n_bad_files
         #break # debugging
 
 
