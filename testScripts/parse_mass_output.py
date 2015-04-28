@@ -7,6 +7,8 @@ import commands
 
 """
 grab all of the log files from mass test runs
+
+This script is used to collect log files for Mike Tarka's use. 
 """
 
 
@@ -56,7 +58,8 @@ def process_file(filename, i_file):
     #print "\t ok"
 
 directory  = \
-"/nfs/slac/g/exo/exo_data/pipeline/logFiles/prod/EXOGenericMonteCarlo/1.7/SimulationStream/runMonteCarlo/001xxx/084/"
+"/nfs/slac/g/exo/exo_data/pipeline/logFiles/prod/EXOGenericMonteCarlo/1.7/SimulationStream/runMonteCarlo/001xxx/182/"
+#"/nfs/slac/g/exo/exo_data/pipeline/logFiles/prod/EXOGenericMonteCarlo/1.7/SimulationStream/runMonteCarlo/001xxx/084/"
 #"/nfs/slac/g/exo/exo_data/pipeline/logFiles/prod/EXOGenericMonteCarlo/1.7/SimulationStream/runMonteCarlo/001xxx/084/000/"
 
 process_directory(directory)
