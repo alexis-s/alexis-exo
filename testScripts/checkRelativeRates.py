@@ -10,6 +10,7 @@ arguments: [directories of root MC output]
 import os
 import sys
 import glob
+import json
 import countMCResults
 
 directories = sys.argv[1:]
@@ -35,11 +36,18 @@ for subdirectory in directories:
 #scale_factor = 1000000 / total_info[0][1]
 print "\n\nsummary of events:"
 
+results_dict = {}
+
 for (subdirectory, total_entries) in total_info:
 
     name = os.path.split(subdirectory)[-1]
 
     print "%s : %.1e" % (name, total_entries)
+    results_dict[name] = total_entries
 
-#print "scale_factor:", scale_factor
+#print "scale_factor:", scale_facto
+
+outputfile = open("mc_rates.json", 'w')
+json.dump(results_dict, outputfile, indent=4, sort_keys=True)
+outputfile.close()
 
