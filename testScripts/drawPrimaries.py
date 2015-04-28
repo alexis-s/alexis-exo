@@ -24,7 +24,7 @@ from ROOT import TH2D
 # options:
 #-------------------------------------------------------------------------------
 
-do_debug = False
+do_debug = True
 selection = "(fMonteCarloData.fPrimaryEventZ < 400) && (fMonteCarloData.fPrimaryEventZ > -400)"
 
 # for x, y, z [mm]:
@@ -81,7 +81,7 @@ hist_n_protons.GetXaxis().SetTitle("n protons")
 
 root_files = sys.argv[1:]
 if do_debug: # only use first 100 files
-    print "====> debugging!!"
+    print "====> debugging -- only using first 100 files!!"
     root_files = root_files[:100]
 
 tree = TChain("tree")
