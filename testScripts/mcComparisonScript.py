@@ -214,7 +214,8 @@ def process_directory(
     for i, hist_dict in enumerate(hist_info):
 
         #name = "hist%i_dir%s" % (i, suffix)
-        name =  "_".join(hist_dict["title"].split()) + "_%s" % suffix
+        name =  "_".join(hist_dict["title"].split()) 
+        if suffix != "1": name += "_%s" % suffix
         hist_dict["name"] = name
         title = "%(title)s: %(draw_string)s" % hist_dict
         try: 
