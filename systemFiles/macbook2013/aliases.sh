@@ -21,6 +21,8 @@ alias sync_farmShare='rsync -avzh -e 'ssh' --progress alexis4@corn.stanford.edu:
 # general
 #--------------------------------------------------------------------
 
+alias startVirtualUbuntu='VBoxHeadless -s ubuntu_14_04_1_LTS &'
+
 alias runbkgmodel='qsub ~/malbekWork/bkgSpectrumPrediction/predictionByContaminant/runItAll.csh'
 alias tailbkgmodel='tail -f -n 200 ~/malbekWork/bkgSpectrumPrediction/predictionByContaminant/logFiles/malbekPredictionContaminants.out | grep " component"'
 
