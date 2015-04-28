@@ -22,7 +22,9 @@ def main(filenames):
         tree = root_file.Get("tree")
 
         try:
-            n_entries = tree.GetEntries()
+            #n_entries = tree.GetEntries()
+            # haven't seen any issues yet...
+            n_entries = tree.GetEntriesFast()
             print "\t n_entries %i (so far: %i)" % (n_entries, total_entries)
             total_entries += n_entries
         except AttributeError:
