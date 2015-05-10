@@ -10,6 +10,7 @@ alias ssh_corn='ssh -Y alexis4@corn.stanford.edu'
 
 alias sync_farmShare='rsync -avzh -e 'ssh' --progress alexis4@corn.stanford.edu:~/bucket/farmShare ~/bucket'
 
+alias synctofarmShare='rsync -avzh --progress --exclude-from=/Users/alexis/.sync_excludes -e 'ssh' /Users/Shared/bucket/farmShare/ alexis4@corn.stanford.edu:~/bucket/farmShare'
 
 #-------------------------------------------------------------------------------
 # EXO
