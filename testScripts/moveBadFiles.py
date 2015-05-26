@@ -33,9 +33,14 @@ def is_root_file_ok(filename):
     print "\t size:", size
     
     root_file = TFile(filename)
+    if root_file.IsZombie():
+        print "\t BAD FILE (zombie)!!"
+        return False
+
     tree = root_file.Get("tree")
+
     try:
-        n_entries = tree.GetEntries()
+        n_entries = tree.GetEntriesFast()
         print "\t n_entries", n_entries
         return True
     except AttributeError:
@@ -66,8 +71,8 @@ def process_directory(
                 cmd = 'mv %s %s/' % (item, bad_file_dir)
                 print cmd
                 (status, output) = commands.getstatusoutput(cmd)
-                print status
-                print output
+                if status != 0:
+                    print output
                 n_bad_files += 1
 
     print "==> %i bad files" % n_bad_files
@@ -78,12 +83,13 @@ def process_directory(
 
 directories = sys.argv[1:]
 
+# make a directory to hold bad files
 bad_file_dir = 'bad_files'
 cmd = "mkdir %s" % bad_file_dir
 print cmd
 (status, output) = commands.getstatusoutput(cmd)
-print status
-print output
+if status != 0:
+    print output
 
 
 for directory in directories:
