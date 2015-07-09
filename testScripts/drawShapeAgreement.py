@@ -1,3 +1,5 @@
+#!/bin/env python
+
 """
 draw results from shape agreement plots
 """
@@ -43,23 +45,36 @@ def process_file(file_name):
 
     # draw ms stuff
     pad1.cd()
+    pad1.SetLogy(1)
+    pad1.SetGrid(1,1)
     hist_ms_data.Draw()
-    hist_ms_data.SetMaximum(300e3)
+    hist_ms_data.SetMaximum(3e5)
+    hist_ms_data.SetMinimum(1e2)
     hist_ms_mc.Draw("same hist")
     pad2.cd()
-    hist_ms_ratio.Draw()
+    pad2.SetGrid(1,1)
+    hist_ms_ratio.SetMaximum(1.4)
+    hist_ms_ratio.SetMinimum(0.6)
+    hist_ms_ratio.Draw("hist")
     canvas.Update()
-    canvas.Print("%s_ms.png" % title)
+    canvas.Print("ms_%s.pdf" % title)
 
     # draw ss stuff
     pad1.cd()
+    pad1.SetLogy(1)
+    pad1.SetGrid(1,1)
     hist_ss_data.Draw()
-    hist_ss_data.SetMaximum(100e3)
+    hist_ss_data.SetMaximum(1e5)
     hist_ss_mc.Draw("same hist")
     pad2.cd()
-    hist_ss_ratio.Draw()
+    pad2.SetGrid(1,1)
+    #pad2.SetLogy(1) # not possible with negative error bars
+    hist_ss_ratio.Draw("hist")
+    #hist_ss_ratio.SetMaximum(12.0)
+    hist_ss_ratio.SetMaximum(1.5)
+    hist_ss_ratio.SetMinimum(0.5)
     canvas.Update()
-    canvas.Print("%s_ss.png" % title)
+    canvas.Print("ss_%s.pdf" % title)
 
 
 
