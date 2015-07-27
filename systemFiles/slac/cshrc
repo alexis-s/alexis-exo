@@ -24,9 +24,24 @@ endif
 
 # TRUNK -- 03 May 2014, for rhel6, per confluence:
 # https://confluence.slac.stanford.edu/pages/viewpage.action?pageId=163480421
+# sets up root, python, geant, 
 source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/trunk/setup.csh
-#source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/svn-id/9923/setup.csh
 
+#source /afs/slac.stanford.edu/package/geant4/9.3.p02/env-rhel6-64.csh > /dev/null
+
+# for Geant4.10.00.p03
+#source /afs/slac.stanford.edu/package/geant4/10.00.p03/env-rhel6-64.csh > /dev/null
+source /afs/slac.stanford.edu/package/geant4/10.00.p03/env-rhel6-64-debug.csh > /dev/null
+#source /afs/slac.stanford.edu/package/geant4/10.01.p02/env-rhel6-64.csh > /dev/null
+
+# set clhep explicitly for offline with new g4
+#setenv CLHEP_BASE_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4.5/rhel6-64
+#setenv CLHEP_INCLUDE_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4.5/rhel6-64/include
+#setenv CLHEP_LIB_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4.5/rhel6-64/lib
+#setenv CLHEP_LIB CLHEP
+
+# for geant4.10 testing
+setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_geant410/build
 
 # old but important versions:
 #source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/svn-id/8274/setup.csh
@@ -47,7 +62,7 @@ source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/trunk/setup.csh
 # 09 May 2014, for my own build w rhel6
 # for trunk (leave the "source ... hudson ... " line above alone!):
 #
-setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline/build
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline/build
 
 # for n-cap bug fix:
 #setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_nCap_Cu63/build
@@ -78,7 +93,7 @@ alias source_offline_veto_panels 'source /nfs/slac/g/exo_data4/users/alexis4/sof
 alias source_offline_veto_daq 'source /nfs/slac/g/exo_data4/users/alexis4/software/exoout_offline_veto_daq/setup.csh'
 
 # some handy soft links, 14 May 2014
-setenv PATH /nfs/slac/g/exo_data4/users/alexis4/software/bin:${PATH}
+#setenv PATH /nfs/slac/g/exo_data4/users/alexis4/software/bin:${PATH}
 
 # AGS, pre-3/2014
 #source ~/.aliases

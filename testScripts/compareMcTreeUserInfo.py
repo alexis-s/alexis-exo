@@ -62,7 +62,7 @@ filename2 = sys.argv[2]
 exo_file1 = get_exo_file(filename1)
 exo_file2 = get_exo_file(filename2)
 
-cmd = "diff -y %s %s" % (exo_file1, exo_file2)
+cmd = "diff %s %s" % (exo_file1, exo_file2)
 print cmd
 
 out = commands.getstatusoutput(cmd)
