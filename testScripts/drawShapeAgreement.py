@@ -42,7 +42,7 @@ def process_file(file_name):
     width=2
     hist_ms_data.SetLineColor(TColor.kBlack)
     hist_ss_data.SetLineColor(TColor.kBlack)
-    print "data hist color", hist_ms_data.GetLineColor()
+    #print "data hist color", hist_ms_data.GetLineColor()
 
     
     # grab mc hists
@@ -50,14 +50,14 @@ def process_file(file_name):
     hist_ms_mc = tfile.Get("Th-228_5_ms_mc")
     hist_ss_mc.SetLineColor(blue)
     hist_ms_mc.SetLineColor(blue)
-    print "MC hist color", hist_ms_mc.GetLineColor()
+    #print "MC hist color", hist_ms_mc.GetLineColor()
 
     # grab ratio hists
     hist_ss_ratio = tfile.Get("Th-228_5_ss_ratio")
     hist_ms_ratio = tfile.Get("Th-228_5_ms_ratio")
     hist_ss_ratio.SetLineColor(blue)
     hist_ms_ratio.SetLineColor(blue)
-    print "ratio hist color", hist_ms_ratio.GetLineColor()
+    #print "ratio hist color", hist_ms_ratio.GetLineColor()
 
     for hist in [hist_ss_mc, hist_ms_mc, hist_ms_data, hist_ss_data]:
         hist.SetXTitle("Energy [keV]")
@@ -106,7 +106,8 @@ def process_file(file_name):
 
 
 def draw_ratio_comparison(filenames):
-    print "drawing ratio comparison of n files=", len(filenames)
+    n_files = len(filenames)
+    print "drawing ratio comparison of n files=", n_files
 
     canvas = TCanvas("canvas", "") #, 600, 700)
     canvas.SetGrid(1,1)
@@ -147,7 +148,10 @@ def draw_ratio_comparison(filenames):
         ms_ratio_hists.append(hist_ms_ratio)
         titles.append(title)
 
-    legend = TLegend(0.1, 0.86, 0.9, 0.98)
+    if n_files > 2:
+        legend = TLegend(0.1, 0.86, 0.9, 0.98)
+    else:
+        legend = TLegend(0.1, 0.86, 0.9, 0.9)
     legend.SetNColumns(2)
 
     colors = [1,2,3,4,6,9]
@@ -168,7 +172,7 @@ def draw_ratio_comparison(filenames):
 
     legend.Draw()
     canvas.Update()
-    canvas.Print("ss_ratios.png")
+    canvas.Print("ss_ratios_%i.png" % n_files)
 
     # draw ms ratio hists
     for (i, title) in enumerate(titles):
@@ -186,7 +190,7 @@ def draw_ratio_comparison(filenames):
 
     legend.Draw()
     canvas.Update()
-    canvas.Print("ms_ratios.png")
+    canvas.Print("ms_ratios_%i.png" % n_files)
 
 
 
