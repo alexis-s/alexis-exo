@@ -225,11 +225,11 @@ def process_directory(
         try: 
             max = hist_dict["max"] 
         except KeyError: 
-            max = 3000
+            max = 3010
         try: 
             n_bins = hist_dict["n_bins"] 
         except KeyError: 
-            n_bins = 250
+            n_bins = 215
         try: 
             x_title = hist_dict["x_title"] 
             units = ""
@@ -258,7 +258,7 @@ def process_directory(
         # debugging:
         if n_total_events > 1e6:
             print "stopping at %i events!!" % n_total_events
-            break
+            #break
 
         print "\t processing file %i of %i (%.2f percent): %s" % (
             i_file, 
