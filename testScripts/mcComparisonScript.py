@@ -370,6 +370,22 @@ def main(directory1, directory2):
         resid_hist.GetYaxis().SetLabelSize(0.10)
         resid_hist.GetYaxis().SetNdivisions(5)
 
+        for i_bin in xrange(resid_hist.GetNBins()):
+            difference = resid_hist.GetBinContent(i_bin)
+            error = resid_hist.GetBinError(i_bin)
+            value = hist1.GetBinContent(i_bin)
+            try:
+                new_value = difference / value
+            except ValueError:
+                new_value = 0.0
+            try:
+                new_error = error / value
+            except ValueError:
+                new_error - 0.0
+
+            resid_hist.SetBinContent(i_bin, new_value)
+            resid_hist.SetBinContent(i_bin, new_error)
+
         pad1 = TPad("pad1", "", 0.0, 0.25, 1.0, 1.0)
         pad1.Draw()
 
