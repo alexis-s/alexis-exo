@@ -16,6 +16,8 @@ gROOT.SetBatch(True)
 from ROOT import TFile
 from ROOT import TCanvas
 from ROOT import TPad
+from ROOT import TColor
+from ROOT import TLegend
 
 def print_integral(hist):
     """
@@ -231,3 +233,5 @@ if __name__ == "__main__":
     file_names = sys.argv[1:]
     for file_name in file_names:
         process_file(file_name)
+
+    draw_ratio_comparison(file_names)

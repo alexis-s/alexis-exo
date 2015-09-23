@@ -16,6 +16,7 @@ wish list:
 
 import sys
 import glob
+import array
 
 from ROOT import gROOT
 gROOT.SetBatch(True)
@@ -57,7 +58,7 @@ def create_hist(name, title, min, max, n_bins, x_title, units):
 
     hist = TH1D(name, title, n_bins, min, max)
     hist.SetXTitle(x_title)
-    hist.SetYTitle("counts / decay / %.1d %s" % (hist.GetBinWidth(1), units) )
+    hist.SetYTitle("counts / decay / %.1f %s" % (hist.GetBinWidth(1), units) )
     hist.SetLineWidth(2)
     hist.Sumw2()
 
@@ -138,38 +139,40 @@ def process_directory(
       "x_title": "z [mm]"
     }) 
 
+    pcd_max = 270
+    pcd_bins = 360
     hist_info.append({
       "title": "PCD X Distribution", 
-      "draw_string": "fMonteCarloData.fPixelatedChargeDeposits.fCoordinateKey.fUorX",
-      "min": -1500,
-      "max": 1500,
-      "n_bins": 200,
-      "x_title": "fCoordinateKey.fX",
+      "draw_string": "fMonteCarloData.fPixelatedChargeDeposits.fCoordinateKey.fUorX*fMonteCarloData.fPixelatedChargeDeposits.fCoordinateKey.fMCChargePixelSize",
+      "min": -pcd_max,
+      "max": pcd_max,
+      "n_bins": pcd_bins,
+      "x_title": "fCoordinateKey.fX [mm]",
     }) 
 
     hist_info.append({
       "title": "PCD Y Distribution", 
-      "draw_string": "fMonteCarloData.fPixelatedChargeDeposits.fCoordinateKey.fVorY",
-      "min": -1500,
-      "max": 1500,
-      "n_bins": 200,
-      "x_title": "fCoordinateKey.fY",
+      "draw_string": "fMonteCarloData.fPixelatedChargeDeposits.fCoordinateKey.fVorY*fMonteCarloData.fPixelatedChargeDeposits.fCoordinateKey.fMCChargePixelSize",
+      "min": -pcd_max,
+      "max": pcd_max,
+      "n_bins": pcd_bins,
+      "x_title": "fCoordinateKey.fY [mm]",
     }) 
 
     hist_info.append({
       "title": "PCD Z Distribution", 
-      "draw_string": "fMonteCarloData.fPixelatedChargeDeposits.fCoordinateKey.fZ",
-      "min": -1500,
-      "max": 1500,
-      "n_bins": 200,
-      "x_title": "fCoordinateKey.fZ",
+      "draw_string": "fMonteCarloData.fPixelatedChargeDeposits.fCoordinateKey.fZ*fMonteCarloData.fPixelatedChargeDeposits.fCoordinateKey.fMCChargePixelSize",
+      "min": -pcd_max,
+      "max": pcd_max,
+      "n_bins": pcd_bins,
+      "x_title": "fCoordinateKey.fZ [mm]",
     }) 
 
     hist_info.append({
       "title": "Primary Event X", 
       "draw_string": "fMonteCarloData.fPrimaryEventX", 
-      "min": -1500,
-      "max": 1500,
+      "min": -250,
+      "max": 250,
       "n_bins": 200,
       "x_title": "x [mm]",
     }) 
@@ -177,8 +180,8 @@ def process_directory(
     hist_info.append({
       "title": "Primary Event Y", 
       "draw_string": "fMonteCarloData.fPrimaryEventY", 
-      "min": -1500,
-      "max": 1500,
+      "min": -250,
+      "max": 250,
       "n_bins": 200,
       "x_title": "y [mm]",
     }) 
@@ -225,11 +228,14 @@ def process_directory(
         try: 
             max = hist_dict["max"] 
         except KeyError: 
-            max = 3010
+            #max = 3500
+            max = 250
+        print "hist", name, ":", min, max
         try: 
             n_bins = hist_dict["n_bins"] 
         except KeyError: 
-            n_bins = 215
+            #n_bins = 215 # for 500 to 3510
+            n_bins = 500 # for 0 to 3500
         try: 
             x_title = hist_dict["x_title"] 
             units = ""
@@ -256,9 +262,10 @@ def process_directory(
     for (i_file, root_filename) in enumerate(root_filenames):
         
         # debugging:
-        if n_total_events > 1e6:
-            print "stopping at %i events!!" % n_total_events
-            #break
+        if (True):
+            if n_total_events > 1e6:
+                print "stopping at %i events!!" % n_total_events
+                break
 
         print "\t processing file %i of %i (%.2f percent): %s" % (
             i_file, 
@@ -358,34 +365,57 @@ def main(directory1, directory2):
 
         print "====> hists %i of %i: %s" % (i+1, len(hist_info1), hist1.GetTitle())
 
-        chi2_prob = hist1.Chi2Test(hist2, "WW P")
+        initial_residuals = [0,]*(hist1.GetNbinsX()+2)
+        residuals = array.array("d", initial_residuals)
+        chi2_prob = hist1.Chi2Test(hist2, "WW P", residuals)
         ks_prob = hist1.KolmogorovTest(hist2)
 
-        resid_hist = hist1.Clone("resid_hist")
+        # fill resid_hist with hist2 - hist1
+        resid_hist = hist2.Clone("resid_hist")
         resid_hist.SetTitle("")
-        resid_hist.Add(hist2, -1.0)
+        resid_hist.Add(hist1, -1.0)
         #print resid_hist.GetYaxis().GetLabelSize()
         resid_hist.SetXTitle("")
-        resid_hist.SetYTitle("")
+        resid_hist.SetYTitle("residual(#sigma)")
         resid_hist.GetYaxis().SetLabelSize(0.10)
+        resid_hist.GetYaxis().SetTitleSize(0.10)
         resid_hist.GetYaxis().SetNdivisions(5)
+        resid_hist.SetMarkerStyle(8)
+        resid_hist.SetMarkerSize(0.5)
 
-        for i_bin in xrange(resid_hist.GetNBins()):
+        # divide each bin in resid_hist by the value in hist1 
+        # this makes resid_hist (hist2 - hist1)/hist1
+        for i_bin in xrange(resid_hist.GetNbinsX()+1):
             difference = resid_hist.GetBinContent(i_bin)
             error = resid_hist.GetBinError(i_bin)
             value = hist1.GetBinContent(i_bin)
             try:
-                new_value = difference / value
-            except ValueError:
+                #new_value = difference / value
+                new_value = difference / error # 03 Sept 2015, using units of sigma
+            except ZeroDivisionError:
                 new_value = 0.0
             try:
                 new_error = error / value
-            except ValueError:
-                new_error - 0.0
+            except ZeroDivisionError:
+                new_error = 0.0
 
             resid_hist.SetBinContent(i_bin, new_value)
-            resid_hist.SetBinContent(i_bin, new_error)
+            #resid_hist.SetBinError(i_bin, new_error)
+            resid_hist.SetBinError(i_bin, 0.0)
 
+            # replace resid_hist values with actual residuals calculated from chi^2
+            #resid_hist.SetBinContent(i_bin, residuals[i_bin])
+            #resid_hist.SetBinError(i_bin, 0.0)
+
+            #print "bin %i | h1: %.2e | h2: %.2e | diff: %.2e | err: %.2e | resid: %.2e" % (
+            #    i_bin,
+            #    hist1.GetBinContent(i_bin),
+            #    hist2.GetBinContent(i_bin),
+            #    difference,
+            #    new_error,
+            #    residuals[i_bin],
+            #)
+                
         pad1 = TPad("pad1", "", 0.0, 0.25, 1.0, 1.0)
         pad1.Draw()
 
@@ -418,7 +448,8 @@ def main(directory1, directory2):
         pad2.SetGrid()
         pad2.SetBottomMargin(0)
         #resid_hist.Scale(100.0)
-        resid_hist.Draw("p e")
+        #resid_hist.Draw("p e")
+        resid_hist.Draw("p")
 
 
 
