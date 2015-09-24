@@ -5,12 +5,6 @@ This script is based on Jeff Wood's GeantComparisonScriptSingleFiles.C.
 This is being used to compare EXOAnalysis output before and after incorporation
 of neutron capture code.
 
-wish list:
-* more flexibility in axis labels (CCs are not in keV)
-* add position info
-* add legends
-* add meaningful file names
-
 11 Apr 2014 A.G. Schubert
 """
 
@@ -228,8 +222,8 @@ def process_directory(
         try: 
             max = hist_dict["max"] 
         except KeyError: 
-            #max = 3500
-            max = 250
+            max = 3500
+            #max = 250
         print "hist", name, ":", min, max
         try: 
             n_bins = hist_dict["n_bins"] 

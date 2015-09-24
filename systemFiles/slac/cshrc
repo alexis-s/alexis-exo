@@ -27,21 +27,22 @@ endif
 # sets up root, python, geant, 
 source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/trunk/setup.csh
 
-#source /afs/slac.stanford.edu/package/geant4/9.3.p02/env-rhel6-64.csh > /dev/null
+source /afs/slac.stanford.edu/package/geant4/9.3.p02/env-rhel6-64.csh > /dev/null
 
 # for Geant4.10.00.p03
 #source /afs/slac.stanford.edu/package/geant4/10.00.p03/env-rhel6-64.csh > /dev/null
-source /afs/slac.stanford.edu/package/geant4/10.00.p03/env-rhel6-64-debug.csh > /dev/null
-#source /afs/slac.stanford.edu/package/geant4/10.01.p02/env-rhel6-64.csh > /dev/null
+#source /afs/slac.stanford.edu/package/geant4/10.00.p03/env-rhel6-64-debug.csh > /dev/null
+source /afs/slac.stanford.edu/package/geant4/10.01.p02/env-rhel6-64.csh > /dev/null
 
 # set clhep explicitly for offline with new g4
-#setenv CLHEP_BASE_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4.5/rhel6-64
-#setenv CLHEP_INCLUDE_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4.5/rhel6-64/include
-#setenv CLHEP_LIB_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4.5/rhel6-64/lib
-#setenv CLHEP_LIB CLHEP
+setenv CLHEP_BASE_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4.5/rhel6-64
+setenv CLHEP_INCLUDE_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4.5/rhel6-64/include
+setenv CLHEP_LIB_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4.5/rhel6-64/lib
+setenv CLHEP_LIB CLHEP
 
 # for geant4.10 testing
-setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_geant410/build
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_geant410/build
+setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_geant410_w_g410/build
 
 # old but important versions:
 #source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/svn-id/8274/setup.csh
