@@ -41,14 +41,14 @@ for filename in filenames:
     print "--> processing:", filename
 
     basename = os.path.basename(filename)
+    basename = os.path.splitext(basename)[0]
     #print basename
 
     script = """
 bsub \\
   -R rhel60 \\
   -q %(queue)s \\
-  -c %(hours)02i:%(minutes)02i \\
-  -e out_%(base)s.err \\
+  -W %(hours)02i:%(minutes)02i \\
   -o out_%(base)s.out \\
   -J %(base)s_py \\
    'printenv; python %(python_script)s %(filename)s'
