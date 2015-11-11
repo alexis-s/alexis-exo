@@ -27,12 +27,17 @@ endif
 # sets up root, python, geant, 
 source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/trunk/setup.csh
 
-source /afs/slac.stanford.edu/package/geant4/9.3.p02/env-rhel6-64.csh > /dev/null
+# Geant4.10 hudson build:
+#source /nfs/slac/g/exo/software/hudson/builds-rhel6-64-geant4-10/trunk/setup.csh
+
+#source /afs/slac.stanford.edu/package/geant4/9.3.p02/env-rhel6-64.csh > /dev/null
 
 # for Geant4.10.00.p03
+#source /afs/slac.stanford.edu/package/geant4/10.01.p02/env-rhel6-64.csh > /dev/null
+
+# version 10.00.p03 has issues...
 #source /afs/slac.stanford.edu/package/geant4/10.00.p03/env-rhel6-64.csh > /dev/null
 #source /afs/slac.stanford.edu/package/geant4/10.00.p03/env-rhel6-64-debug.csh > /dev/null
-source /afs/slac.stanford.edu/package/geant4/10.01.p02/env-rhel6-64.csh > /dev/null
 
 # set clhep explicitly for offline with new g4
 setenv CLHEP_BASE_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4.5/rhel6-64
@@ -40,9 +45,12 @@ setenv CLHEP_INCLUDE_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4
 setenv CLHEP_LIB_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4.5/rhel6-64/lib
 setenv CLHEP_LIB CLHEP
 
+# for excited state decay tests for Scott K, 28 Oct 2015:
+setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_excited_states/build
+
 # for geant4.10 testing
 #setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_geant410/build
-setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_geant410_w_g410/build
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_geant410_w_g410/build
 
 # old but important versions:
 #source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/svn-id/8274/setup.csh
@@ -109,4 +117,6 @@ alias vim 'vim -i /nfs/slac/g/exo_data4/users/alexis4/.viminfo'
 
 alias myjobs 'bjobs | grep alexis ; echo "total:" ; bjobs | grep alexis | wc -l ; echo "running" ; bjobs | grep alexis | grep " RUN" | wc -l'
 
+# doesn't work since slac is not on vpn...
+#alias sshdaq 'ssh -A xenon@varian022.stanford.edu'
 
