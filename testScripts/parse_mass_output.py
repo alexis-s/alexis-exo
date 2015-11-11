@@ -58,7 +58,8 @@ def process_file(filename, i_file):
     #print "\t ok"
 
 directory  = \
-"/nfs/slac/g/exo/exo_data/pipeline/logFiles/prod/EXOGenericMonteCarlo/1.7/SimulationStream/runMonteCarlo/001xxx/182/"
+"/nfs/slac/g/exo/exo_data/pipeline/logFiles/prod/EXOGenericMonteCarlo/1.7/SimulationStream/runMonteCarlo/001xxx/291/"
+#"/nfs/slac/g/exo/exo_data/pipeline/logFiles/prod/EXOGenericMonteCarlo/1.7/SimulationStream/runMonteCarlo/001xxx/182/"
 #"/nfs/slac/g/exo/exo_data/pipeline/logFiles/prod/EXOGenericMonteCarlo/1.7/SimulationStream/runMonteCarlo/001xxx/084/"
 #"/nfs/slac/g/exo/exo_data/pipeline/logFiles/prod/EXOGenericMonteCarlo/1.7/SimulationStream/runMonteCarlo/001xxx/084/000/"
 
