@@ -1,5 +1,16 @@
 #!/usr/bin/env python
 
+"""
+Columns in labview output file:
+0: time in seconds 
+1: temp in K (TC?)
+2: temp in K (TC?)
+3: temp in K (TC?)
+4: state of ?
+5: state of ?
+6: state of ?
+"""
+
 import os
 import sys
 
@@ -14,6 +25,11 @@ from ROOT import TGraph
 
 def process_file(filename):
 
+
+    # options:
+    n_columns = 2
+
+
     print "--> processing file:", filename
 
     basename = os.path.basename(filename)
@@ -24,11 +40,19 @@ def process_file(filename):
     dat_file = file(filename)
 
     graphs = []
-    graphs.append(TGraph())
-    graphs.append(TGraph())
+    for i in xrange(n_columns):
+        graphs.append(TGraph())
 
     colors = []
     colors.append(TColor.kBlue+1)
+    colors.append(TColor.kRed+1)
+    colors.append(TColor.kGreen+2)
+    colors.append(TColor.kViolet+2)
+    colors.append(TColor.kRed+1)
+    colors.append(TColor.kRed+1)
+    colors.append(TColor.kRed+1)
+    colors.append(TColor.kRed+1)
+    colors.append(TColor.kRed+1)
     colors.append(TColor.kRed+1)
 
     for (i_graph, graph) in enumerate(graphs):
@@ -62,11 +86,17 @@ def process_file(filename):
         #print time_stamp
 
         for (i_val, value) in enumerate(values[1:]):
-            graph = graphs[i_val]
+            try:
+                graph = graphs[i_val]
+            except IndexError:
+                #print "too many columns!!"
+                break
+                
             i_point = graph.GetN()
             y = float(value) #- i_val*0.01
             #if y < 296.0:
             #    print i_val, value
+            print i_val, value
             if y > 0.0:
                 graph.SetPoint(i_point, time_stamp, y)
                 if y > maximum: maximum = y
