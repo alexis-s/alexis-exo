@@ -40,7 +40,7 @@ def process_file(filename):
     now = start_time
 
 
-    entries_of_timestamp = {} # a dictionary mapping timestamps to lists of tree entries
+    #entries_of_timestamp = {} # a dictionary mapping timestamps to lists of tree entries
 
 
 
@@ -58,20 +58,6 @@ def process_file(filename):
                 now - last_time,
                 now - start_time,
             )
-
-        # fill dict of timestamps -> entry numbers
-        try:
-            entries_of_timestamp[timestamp]
-            #print "timestamp already exists!!"
-        except KeyError:
-            entries_of_timestamp[timestamp] = []
-        entries_of_timestamp[timestamp].append(i_entry)
-        if len(entries_of_timestamp[timestamp]) > 6:
-            print "more than 6 entries with timestamp", timestamp
-
-
-
-
 
         i = rand_vals[i_entry]
         tree.GetEntry(i_entry)
