@@ -36,6 +36,15 @@ export ELOGEXODIR=$SOFTWAREDIR/elog/logbooks/ags-exo
 # 09 Apr 2015:
 source $SOFTWAREDIR/root/root5_34_28/bin/thisroot.sh
 
+# 07 June 2015 -- works for ORNL Jason's SIS code:
+#source $SOFTWAREDIR/root/root-6.04.00/bin/thisroot.sh
+
+#-------------------------------------------------------------------------------
+# GTR
+#-------------------------------------------------------------------------------
+
+export PYTHONPATH=$PYTHONPATH:/Users/alexis/software/gtr
+
 
 #-------------------------------------------------------------------------------
 # GEANT4

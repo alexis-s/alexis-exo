@@ -3,4 +3,4 @@ source ~/.aliases
 source ~/.environment_vars
 source ~/ssh-aliases.sh
 
-
+#alias ls="printf 'Rome demands files!\n\n...\n\nGLORY TO ROME!\n'"
