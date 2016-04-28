@@ -32,10 +32,10 @@ source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/trunk/setup.csh
 
 #source /afs/slac.stanford.edu/package/geant4/9.3.p02/env-rhel6-64.csh > /dev/null
 
-# for Geant4.10.00.p03
+# for Geant4.10.01.p02
 #source /afs/slac.stanford.edu/package/geant4/10.01.p02/env-rhel6-64.csh > /dev/null
 
-# version 10.00.p03 has issues...
+# for nEXO, version 10.00.p03...
 #source /afs/slac.stanford.edu/package/geant4/10.00.p03/env-rhel6-64.csh > /dev/null
 #source /afs/slac.stanford.edu/package/geant4/10.00.p03/env-rhel6-64-debug.csh > /dev/null
 
@@ -45,8 +45,24 @@ setenv CLHEP_INCLUDE_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4
 setenv CLHEP_LIB_DIR /afs/slac.stanford.edu/package/geant4/vol52/clhep/2.0.4.5/rhel6-64/lib
 setenv CLHEP_LIB CLHEP
 
+
+#--------------------------------------------------------------------------------
+# offline
+#--------------------------------------------------------------------------------
+
+# 09 May 2014, for my own build w rhel6
+# for trunk (leave the "source ... hudson ... " line above alone!):
+#
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline/build; source $EXOOUT/setup.csh
+
+# for 3D digitizer, to match setup at NERSC hopper, 16 Dec 2015:
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_3D_Digitizer/build
+
+# for sereres excited states studies:
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_sereres/build
+
 # for excited state decay tests for Scott K, 28 Oct 2015:
-setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_excited_states/build
+#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_excited_states/build
 
 # for geant4.10 testing
 #setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_geant410/build
@@ -67,12 +83,7 @@ setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_excited_state
 
 # 09 Jun 2014, for my own geant4:
 #source /nfs/slac/g/exo_data4/users/alexis4/software/geant/geant4.9.3.p02/env.csh > /dev/null
-
-# 09 May 2014, for my own build w rhel6
-# for trunk (leave the "source ... hudson ... " line above alone!):
 #
-#setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline/build
-
 # for n-cap bug fix:
 #setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_nCap_Cu63/build
 
@@ -90,7 +101,9 @@ setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_excited_state
 #setenv EXOOUT /nfs/slac/g/exo_data4/users/alexis4/software/offline_tarka/build
 
 # for my own builds:
-source $EXOOUT/setup.csh
+#source $EXOOUT/setup.csh
+#
+#--------------------------------------------------------------------------------
 
 
 # to add exo fitting, 14 MAr 2014:
@@ -117,6 +130,29 @@ alias vim 'vim -i /nfs/slac/g/exo_data4/users/alexis4/.viminfo'
 
 alias myjobs 'bjobs | grep alexis ; echo "total:" ; bjobs | grep alexis | wc -l ; echo "running" ; bjobs | grep alexis | grep " RUN" | wc -l'
 
+alias sshexodata 'ssh exodata@rhel6-64'
+
+alias syncplots 'rsync -avh *.txt *.out *.pdf *.png ~/mybucket/test-stand/2016_03_07_7thLXe/'
+
+alias python 'time python'
+
 # doesn't work since slac is not on vpn...
 #alias sshdaq 'ssh -A xenon@varian022.stanford.edu'
+
+# nEXO MC... not sure this does anything for our setup:
+setenv G4_V10 1
+
+setenv PYTHONPATH ~/software/charge-readout-scripts/:$PYTHONPATH
+
+# trunk
+#setenv NEXOANALYSIS /nfs/slac/g/exo_data4/users/alexis4/software/nEXOSW/nEXO_analysis
+# MJJ branch
+
+setenv NEXOANALYSIS /nfs/slac/g/exo_data4/users/alexis4/software/nEXOSW/LXe_Test_Stand_Analysis
+# this can mess up offline!!
+#setenv LD_LIBRARY_PATH $NEXOANALYSIS/lib:${LD_LIBRARY_PATH}
+
+setenv MPLCONFIGDIR /nfs/slac/g/exo_data4/users/alexis4/ 
+
+limit coredumpsize 0 
 
