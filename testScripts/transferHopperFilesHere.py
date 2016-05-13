@@ -1,14 +1,5 @@
 #!/bin/env python
 
-
-"""
-A script for transferring files from NERSC to SLAC using rsync. 
-
-First try for 3D digitizer work.
-
-11 Nov 2015 AGS
-"""
-
 import re
 import commands
 
@@ -24,23 +15,34 @@ lines = output[1].split('\n')
 
 directory_list = []
 
-for line in lines:
+for line in lines: # FIXME
     index = line.find("hopque")
     if index > 0:
         line = ansi_escape.sub('', line)
         print line
         directory_list.append(line)
 
-print "%i directories to transfer..." % len(directory_list)
 
-for (i, directory) in enumerate(directory_list):
+directory_list.sort()
 
-    print "processing directory %i: %s" % (i, directory)
+print "---------------------------------------"
+
+for directory in directory_list[4:]:
+    print directory
+
+print "---------------------------------------"
+
+print "%i directories to transfer..." % len(directory_list[4:])
+
+for (i, directory) in enumerate(directory_list[4:]):
+
+    print "processing directory %i: %s" % (i+1, directory)
 
     # dry run:
     #cmd = 'rsync -n --progress -rltDvzh -e ssh alexis3@hopper.nersc.gov:/scratch/scratchdirs/alexis3/%s/ .' % directory
 
-    cmd = 'rsync --progress -rlDvzh -e ssh alexis3@hopper.nersc.gov:/scratch/scratchdirs/alexis3/%s/ .' % directory
+    #cmd = 'rsync -n --progress -rlDvzh -e ssh alexis3@hopper.nersc.gov:/scratch/scratchdirs/alexis3/%s/ .' % directory
+    cmd = 'rsync -n --exclude "*.out" --progress -rLDvzh -e ssh alexis3@hopper.nersc.gov:/scratch/scratchdirs/alexis3/MonteCarlo/svn10448_3d_digitizer/ .' 
 
     if i == 0:
         new_cmd = "%s >& test.out" % cmd
@@ -52,6 +54,7 @@ for (i, directory) in enumerate(directory_list):
     print "\n--> output:"
     print output[1]
     print "\n\n"
+    break # debugging
 
 
 

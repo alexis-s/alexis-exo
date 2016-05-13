@@ -27,10 +27,15 @@ endif
 # sets up root, python, geant, 
 source /nfs/slac/g/exo/software/hudson/builds-rhel6-64/trunk/setup.csh
 
-# Geant4.10 hudson build:
+# standard G4
+source /afs/slac.stanford.edu/package/geant4/9.3.p02/env-rhel6-64.csh > /dev/null
+
+# offline hudson build with Geant4.10.1:
 #source /nfs/slac/g/exo/software/hudson/builds-rhel6-64-geant4-10/trunk/setup.csh
 
-#source /afs/slac.stanford.edu/package/geant4/9.3.p02/env-rhel6-64.csh > /dev/null
+# Geant4.10.2.p01
+#source /afs/slac.stanford.edu/package/geant4/10.02.p01/env-rhel6-64.csh 
+
 
 # for Geant4.10.01.p02
 #source /afs/slac.stanford.edu/package/geant4/10.01.p02/env-rhel6-64.csh > /dev/null

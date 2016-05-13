@@ -25,7 +25,7 @@ def main(filenames):
             #n_entries = tree.GetEntries()
             # haven't seen any issues yet...
             n_entries = tree.GetEntriesFast()
-            print "\t n_entries %i (so far: %i)" % (n_entries, total_entries)
+            print "\t n_entries %i (so far: %.3e)" % (n_entries, total_entries)
             total_entries += n_entries
         except AttributeError:
             print "\t BAD FILE!!"  

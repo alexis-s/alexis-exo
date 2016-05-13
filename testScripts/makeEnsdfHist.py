@@ -22,8 +22,9 @@ from ROOT import TFile
 def make_hist(file_name):
 
     # options
+    minE = -8.0 # to put a 14-keV bin boundary at 1 MeV
     maxE = 10000.0
-    n_bins = int(maxE*100)
+    n_bins = int((maxE-minE)*100)
 
 
     print "--> processing", file_name
@@ -35,15 +36,18 @@ def make_hist(file_name):
     root_file = TFile("%s.root" % basename, "recreate")
     hist = TH1D("gamma_hist","%s gammas" % basename, n_bins, 0.0, maxE)
     hist.SetXTitle("Energy [keV]")
-    hist.SetXTitle("Intensity [%]")
+    hist.SetYTitle("Intensity [%]")
 
     i_line = 0
     n_gammas = 0
     assigned = False
     # try to find gammas listed in the file
     search_string = "%s  G" % file_name
-    print search_string
+    #print search_string
     for line in ensdf_file:
+        if i_line == 0:
+            date = line[74:]
+            print "release date:", date
         i_line += 1
 
         # try to find first instance of level record -- everything above this is
@@ -106,6 +110,7 @@ def make_hist(file_name):
 
     print "%i gammas found" % n_gammas
 
+    hist.SetTitle("%s %s" % (basename, date))
     root_file.Write()
 
 

@@ -1,5 +1,5 @@
 """
-Print some info to help check whether relative event rates are correct.
+no rate checking --- count events
 
 arguments: [directories of root MC output]
 
@@ -11,7 +11,11 @@ import os
 import sys
 import glob
 import json
-import countMCResults
+#import countMCResults
+
+from ROOT import gROOT
+gROOT.SetBatch(True)
+from ROOT import TChain
 
 directories = sys.argv[1:]
 
@@ -23,10 +27,13 @@ for subdirectory in directories:
     print "--> processing directory", subdirectory
 
     filenames = glob.glob("%s/*.root" % subdirectory)
+    filenames = "%s/*.root" % subdirectory
+    tree = TChain("tree")
+    tree.Add(filenames)
 
-    total_entries = countMCResults.main(filenames)
+    total_entries = tree.GetEntries()
 
-    name = os.path.split(subdirectory)[-2]
+    print subdirectory, total_entries
 
     total_info.append((subdirectory, total_entries))
     
@@ -47,7 +54,7 @@ for (subdirectory, total_entries) in total_info:
 
 #print "scale_factor:", scale_facto
 
-outputfile = open("mc_rates.json", 'w')
+outputfile = open("mc_rates2.json", 'w')
 json.dump(results_dict, outputfile, indent=4, sort_keys=True)
 outputfile.close()
 

@@ -1,7 +1,7 @@
 
 
 """
-
+Make a hist of gammas emitted in decay
 """
 
 import os
@@ -17,9 +17,9 @@ from ROOT import TFile
 def make_hist(file_name):
 
     # options
-    maxE = 10000.0 # 10 MeV
-    n_bins = int(maxE*100)
-
+    minE = -8.0 # to put a 14-keV bin boundary at 1 MeV
+    maxE = 10000.0
+    n_bins = int((maxE-minE)*100)
 
     print "--> processing", file_name
 
@@ -33,13 +33,27 @@ def make_hist(file_name):
     print "%i entries in tree" % n_entries
 
     tree.GetEntry(n_entries-1)
-    n_g4_events = tree.EventBranch.fEventHeader.fGeant4EventNumber
+    n_g4_events = tree.EventBranch.fEventHeader.fGeant4EventNumber+1
+    svn_revision = tree.EventBranch.fEventHeader.fSVNRevision
+    build_id = tree.EventBranch.fEventHeader.fBuildID
     print "%i decays" % n_g4_events
+    print "build_id:", build_id
+    print "svn_revision:", svn_revision
 
-    new_file = TFile("gammas_G4_%s.root" % basename, "recreate")
-    hist = TH1D("gamma_hist","%s gammas" % basename, n_bins, 0.0, maxE)
+
+    # The TTree "tree" in a root file of MC output contains a TList of user info,
+    # which has all of the talkto commands from the .exo file, among other
+    # things
+    #exoProcessingInfo = tree.GetUserInfo().At(0)
+    #cmds = exoProcessingInfo.GetCommandsCalled()
+    #for cmd in cmds:
+    #    print cmd
+
+
+    new_file = TFile("G4_svn_r%s_%s" % (svn_revision, basename), "recreate")
+    hist = TH1D("gamma_hist", build_id, n_bins, 0.0, maxE)
     hist.SetXTitle("Energy [keV]")
-    hist.SetXTitle("Intensity [%]")
+    hist.SetYTitle("Intensity [%]")
     hist.Sumw2()
 
     hist.GetDirectory().cd()
@@ -52,7 +66,7 @@ def make_hist(file_name):
     hist_entries = hist.GetEntries()
     print "%i entries in hist" % hist_entries
 
-    hist.Scale(1.0/n_g4_events)
+    hist.Scale(100.0/n_g4_events)
 
     new_file.Write()
 
